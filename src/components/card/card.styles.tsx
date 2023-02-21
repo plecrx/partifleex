@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const CardContainer = styled.div`
   width: 280px;
@@ -6,11 +6,11 @@ export const CardContainer = styled.div`
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid lightgray;
-`;
+`
 
 export const CardBody = styled.div`
   padding: 24px 32px;
-`;
+`
 
 export const CardHeader = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const Title = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-`;
+`
 
 export const Subtitle = styled.div`
   display: -webkit-box;
@@ -38,7 +38,7 @@ export const Subtitle = styled.div`
   color: lightgray;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 export const ContentWrapper = styled.div`
   display: flex;
@@ -51,10 +51,10 @@ export const ContentWrapper = styled.div`
   margin: 8px 0;
   min-height: 80px;
   gap: 24px;
-`;
+`
 
 export const CloseButton = styled.div`
   width: 16px;
   height: 16px;
   cursor: pointer;
-`;
+`

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { GaugeItemProps } from './gauge.types';
+import styled from 'styled-components'
+import { GaugeItemProps } from './gauge.types'
 
 export const GaugeWrapper = styled.div`
   display: flex;
@@ -9,7 +9,6 @@ export const GaugeLabelWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `
-
 
 export const GaugeItem = styled.div<GaugeItemProps>`
   width: ${({ ratio }) => `${ratio}%`};

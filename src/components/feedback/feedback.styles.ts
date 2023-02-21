@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-export const FeedbackButton = styled.div<{color: string}>`
-  color: ${({color}) => color};
+export const FeedbackButton = styled.div<{ color: string }>`
+  color: ${({ color }) => color};
   cursor: pointer;
 `
