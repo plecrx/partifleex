@@ -3,6 +3,6 @@ import { ReactNode } from 'react'
 export type CardProps = {
   title?: string | ReactNode
   subtitle?: string | ReactNode
-  cancelAction?: () => void
+  onRemoveClick?: () => void
   children?: string | ReactNode
 }
