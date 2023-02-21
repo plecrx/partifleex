@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
@@ -25,22 +25,22 @@
     "jsx": "react",
     "paths": {
       "app/*": [
-        "src/app.tsx/*"
+        "app.tsx/*"
       ],
       "components/*": [
-        "src/components/*"
+        "components/*"
       ],
       "data/*": [
-        "src/data/*"
+        "data/*"
       ],
       "pages/*": [
-        "src/pages/*"
+        "pages/*"
       ],
       "types/*": [
-        "src/types/*"
+        "types/*"
       ],
       "utils/*": [
-        "src/utils/*"
+        "utils/*"
       ],    }
   },
   "include": [

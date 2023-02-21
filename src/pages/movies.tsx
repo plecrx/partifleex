@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { CardList } from '../components/cardList/cardList.component'
-import { MovieCard } from '../components/movie/movie.component'
-import { movies$ } from '../data/movies'
-import { Movie } from '../types/movie'
+import { CardList } from 'components/cardList/cardList.component'
+import { MovieCard } from 'components/movie/movie.component'
+import { movies$ } from 'data/movies'
+import { Movie } from 'types/movie'
 
 const Wrapper = styled.div`
   padding: 60px;

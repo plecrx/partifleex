@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card } from '../card/card.component'
-import { Feedback } from '../feedback/feedback'
-import { Gauge } from '../gauge/gauge.component'
+import { Card } from 'components/card/card.component'
+import { Feedback } from 'components/feedback/feedback.component'
+import { Gauge } from 'components/gauge/gauge.component'
 import { MovieCardProps } from './movie.type'
 
 export const MovieCard = ({ movie }: MovieCardProps) => {
