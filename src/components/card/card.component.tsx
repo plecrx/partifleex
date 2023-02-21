@@ -1,4 +1,4 @@
-import { TrashIcon } from '@heroicons/react/20/solid'
+import { Checkbox } from 'components/checkbox/checkbox.component'
 import React from 'react'
 import {
   CardContainer,
@@ -8,16 +8,10 @@ import {
   CardHeader,
   CardHeaderLabel,
   Subtitle,
-  RemoveButton,
 } from './card.styles'
 import { CardProps } from './card.types'
 
-export const Card = ({
-  title,
-  subtitle,
-  onRemoveClick,
-  children,
-}: CardProps) => (
+export const Card = ({ title, subtitle, children }: CardProps) => (
   <CardContainer>
     <CardBody>
       <CardHeader>
@@ -25,9 +19,9 @@ export const Card = ({
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
         </CardHeaderLabel>
-        <RemoveButton onClick={onRemoveClick}>
-          <TrashIcon />
-        </RemoveButton>
+        <div style={{ alignSelf: 'flex-start' }}>
+          <Checkbox />
+        </div>
       </CardHeader>
       {children && <ContentWrapper>{children}</ContentWrapper>}
     </CardBody>
