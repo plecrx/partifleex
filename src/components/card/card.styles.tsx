@@ -53,7 +53,7 @@ export const ContentWrapper = styled.div`
   gap: 24px;
 `
 
-export const CloseButton = styled.div`
+export const RemoveButton = styled.div`
   width: 16px;
   height: 16px;
   cursor: pointer;

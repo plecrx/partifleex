@@ -1,4 +1,11 @@
 export type FeedbackProps = {
-  likeAction: () => void
-  dislikeAction: () => void
+  isLiked?: boolean
+  isDisliked?: boolean
+  onLikeClick: () => void
+  onDislikeClick: () => void
+}
+
+export enum FeedbackColor {
+  liked = 'green',
+  disliked = 'red',
 }

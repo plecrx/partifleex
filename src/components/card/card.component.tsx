@@ -8,14 +8,14 @@ import {
   CardHeader,
   CardHeaderLabel,
   Subtitle,
-  CloseButton,
+  RemoveButton,
 } from './card.styles'
 import { CardProps } from './card.types'
 
 export const Card = ({
   title,
   subtitle,
-  cancelAction,
+  onRemoveClick,
   children,
 }: CardProps) => (
   <CardContainer>
@@ -25,9 +25,9 @@ export const Card = ({
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
         </CardHeaderLabel>
-        <CloseButton onClick={cancelAction}>
+        <RemoveButton onClick={onRemoveClick}>
           <TrashIcon />
-        </CloseButton>
+        </RemoveButton>
       </CardHeader>
       {children && <ContentWrapper>{children}</ContentWrapper>}
     </CardBody>
