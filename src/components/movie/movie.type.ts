@@ -1,5 +1,5 @@
-import { Movie } from '../../types/movie';
+import { Movie } from '../../types/movie'
 
 export type MovieCardProps = {
-    movie: Movie
+  movie: Movie
 }

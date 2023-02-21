@@ -21,7 +21,8 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "resolveJsonModule": true,
-    "jsx": "react-jsx",
+    "isolatedModules": true,
+    "jsx": "react",
     "paths": {
       "app/*": [
         "src/app.tsx/*"

@@ -1,4 +1,4 @@
 export type FeedbackProps = {
-    likeAction: () => void
-    dislikeAction: () => void
+  likeAction: () => void
+  dislikeAction: () => void
 }

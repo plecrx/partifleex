@@ -1,7 +1,7 @@
 export type Movie = {
-    id: string,
-    title: string,
-    category: string,
-    likes: number,
-    dislikes: number
+  category: string
+  dislikes: number
+  id: string
+  likes: number
+  title: string
 }
