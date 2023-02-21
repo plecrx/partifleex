@@ -1,3 +1,4 @@
+import { Checkbox } from 'components/checkbox/checkbox.component'
 import React from 'react'
 import {
   CardContainer,
@@ -18,8 +19,9 @@ export const Card = ({ title, subtitle, children }: CardProps) => (
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
         </CardHeaderLabel>
-
-        <input type="checkbox" />
+        <div style={{ alignSelf: 'flex-start' }}>
+          <Checkbox />
+        </div>
       </CardHeader>
       {children && <ContentWrapper>{children}</ContentWrapper>}
     </CardBody>
