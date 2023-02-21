@@ -11,7 +11,7 @@ export const Gauge = ({ likes, dislikes }: GaugeProps) => {
     const dislikesRatio = getRatio(dislikes, totalFeedbacks)
     if (totalFeedbacks !== 0) {
         return (
-            <>
+            <div>
                 <GaugeWrapper>
                     <GaugeItem
                         color={GaugeItemColors.like}
@@ -28,7 +28,7 @@ export const Gauge = ({ likes, dislikes }: GaugeProps) => {
                     <div style={{ color: GaugeItemColors.like }}>{likes}</div>
                     <div style={{ color: GaugeItemColors.dislike }}>{dislikes}</div>
                 </GaugeLabelWrapper>
-            </>
+            </div>
         )
     }
 
