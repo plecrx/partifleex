@@ -1,35 +1,31 @@
-import { CardActionWrapper } from './card.action.component';
+import { TrashIcon } from '@heroicons/react/20/solid';
+import React from 'react';
 import {
     CardContainer,
     CardBody,
-    CardHeader,
     Title,
-    ContentWrapper,
+    ContentWrapper, CardHeader, CardHeaderLabel, Subtitle, CloseButton,
 } from './card.styles';
 import { CardProps } from './card.types';
 
 export const Card = ({
-     title,
-     children,
-     primaryAction,
-     secondaryAction,
-     hasHeader = false,
-     headerComponent,
-     redirectMethod
+    title,
+    subtitle,
+    cancelAction,
+    children
  }: CardProps) => (
-    <CardContainer onClick={redirectMethod}>
-        {hasHeader && headerComponent && (
-            <CardHeader>{headerComponent}</CardHeader>
-        )}
+    <CardContainer>
         <CardBody>
-            {title && <Title>{title}</Title>}
+            <CardHeader>
+                <CardHeaderLabel>
+                    {title && <Title>{title}</Title>}
+                    {subtitle && <Subtitle>{subtitle}</Subtitle>}
+                </CardHeaderLabel>
+                <CloseButton onClick={cancelAction}>
+                    <TrashIcon />
+                </CloseButton>
+            </CardHeader>
             {children && <ContentWrapper>{children}</ContentWrapper>}
-            {(primaryAction || secondaryAction) && (
-                <CardActionWrapper
-                    primaryAction={primaryAction}
-                    secondaryAction={secondaryAction}
-                />
-            )}
         </CardBody>
     </CardContainer>
 );

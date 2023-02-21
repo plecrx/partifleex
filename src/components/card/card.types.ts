@@ -1,15 +1,8 @@
-export type CardProps = {
-    title?: string | React.ReactNode;
-    children?: string | React.ReactNode;
-    primaryAction?: React.ReactNode;
-    secondaryAction?: React.ReactNode;
-    redirectMethod?: () => void;
-    hasHeader?: boolean;
-    hasBorder?: boolean;
-    headerComponent?: React.ReactNode;
-};
+import { ReactNode } from 'react';
 
-export type CardActionProps = {
-    primaryAction?: React.ReactNode | React.ReactNode[];
-    secondaryAction?: React.ReactNode | React.ReactNode[];
+export type CardProps = {
+    title?: string | ReactNode;
+    subtitle?: string | ReactNode;
+    cancelAction?: () => void;
+    children?: string | ReactNode;
 };
