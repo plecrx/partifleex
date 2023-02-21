@@ -5,6 +5,7 @@ export const CardListContainer = styled.div`
   flex-direction: column;
   align-content: center;
   justify-content: center;
+  padding: 0 96px;
 `
 
 export const CardListTitle = styled.div`
@@ -13,7 +14,7 @@ export const CardListTitle = styled.div`
   font-size: 20px;
   line-height: 32px;
   margin-bottom: 24px;
-  color: white;
+  color: red;
 `
 
 export const CardlistWrapper = styled.div`

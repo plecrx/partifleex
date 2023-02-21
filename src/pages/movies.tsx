@@ -6,11 +6,7 @@ import { movies$ } from '../data/movies'
 import { Movie } from '../types/movie'
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  padding: 16px;
+  padding: 60px;
 `
 
 export const Movies = () => {
@@ -46,8 +42,7 @@ export const Movies = () => {
 
   return (
     <Wrapper>
-      Ma liste de films
-      <CardList title="">
+      <CardList title="Ma liste de films">
         {movies.map((movie: Movie) => (
           <MovieCard key={`movie-${movie.id}`} movie={movie} />
         ))}
