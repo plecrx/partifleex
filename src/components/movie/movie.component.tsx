@@ -8,7 +8,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const { title, category, likes, dislikes } = movie
   return (
     <Card title={title} subtitle={category} cancelAction={() => {}}>
-      <Feedback likeAction={() => {}} dislikeAction={() => {}} />
+      <Feedback onLikeClick={() => {}} onDislikeClick={() => {}} />
       <Gauge likes={likes} dislikes={dislikes} />
     </Card>
   )
