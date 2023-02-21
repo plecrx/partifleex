@@ -1,6 +1,6 @@
 {
   "root": true,
-  "plugins": ["typescript-eslint", "import", "prettier"],
+  "plugins": ["@typescript-eslint", "styled-components-a11y", "prettier"],
   "extends": [
     "airbnb",
     "airbnb/hooks",
@@ -44,19 +44,6 @@
           "type"
         ],
         "newlines-between": "never"
-      }
-    ],
-    "overrides": [
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "parserOptions": {
-          "ecmaVersion": 2018,
-          "sourceType": "module",
-          "project": "./tsconfig.base.json"
-        }
       }
     ]
   }
