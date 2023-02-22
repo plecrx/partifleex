@@ -2,5 +2,9 @@ import React from 'react'
 import { Movies } from 'pages/movies'
 
 export function App() {
-  return <Movies />
+  return (
+    <div style={{ overflow: 'hidden' }}>
+      <Movies />
+    </div>
+  )
 }
