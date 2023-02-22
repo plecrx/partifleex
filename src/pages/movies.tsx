@@ -8,21 +8,31 @@ import {
   CategoryWrapper,
 } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { CardList } from 'components/cardList/cardList.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { Movie } from 'types/movie'
-import { mapMoviesOnCategory } from 'utils/mapMoviesOnCategory'
 import { useMovies } from '../features/useMovies'
 
 export const Movies = () => {
-  const { movies, isLoading, isError } = useMovies()
-  const opportunitiesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const {
+    removeMovie,
+    handleLikeMovieClick,
+    handleDislikeMovieClick,
+    isLiked,
+    isDisliked,
+    isSelected,
+    selectedMovies,
+    handleSelectAllChange,
+    movies,
+    isLoading,
+    isError,
+  } = useMovies()
 
   const renderFilterBar = () => (
     <FilterbarWrapper>
       <Selector>
-        <Checkbox isChecked={false} onChange={() => {}} />
+        <Checkbox isChecked={!!selectedMovies.length} onChange={handleSelectAllChange} />
         Tout sélectionner
       </Selector>
       <Selector />
@@ -56,18 +66,20 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(opportunitiesMap).map(([category, categoryMovies]) => (
-          <CategoryWrapper>
+        {Object.entries(movies).map(([category, categoryMovies]) => (
+          <CategoryWrapper key={`category-${category}`}>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>
               {categoryMovies.map((movie: Movie) => (
                 <MovieCard
-                  key={`movie-${movie.id}`}
+                  key={`category-${category}-${movie.title}-${Math.random()}`}
                   movie={movie}
-                  isChecked={false}
-                  likeMovie={() => {}}
-                  dislikeMovie={() => {}}
-                  removeMovie={() => {}}
+                  isChecked={isSelected(movie)}
+                  isLiked={isLiked(movie)}
+                  isDisliked={isDisliked(movie)}
+                  onLikeMovieClick={() => handleLikeMovieClick(movie)}
+                  onDislikeMovieClick={() => handleDislikeMovieClick(movie)}
+                  removeMovie={() => removeMovie(movie)}
                 />
               ))}
             </MoviesWrapper>

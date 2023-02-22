@@ -3,7 +3,9 @@ import { Movie } from 'types/movie'
 export type MovieCardProps = {
   movie: Movie
   isChecked: boolean
-  likeMovie: () => void
-  dislikeMovie: () => void
+  isLiked: boolean
+  isDisliked: boolean
+  onLikeMovieClick: () => void
+  onDislikeMovieClick: () => void
   removeMovie: () => void
 }
