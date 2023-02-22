@@ -3,7 +3,7 @@ import { Movies } from 'pages/movies'
 
 export function App() {
   return (
-    <div style={{ overflow: 'hidden' }}>
+    <div style={{ overflowX: 'hidden' }}>
       <Movies />
     </div>
   )
