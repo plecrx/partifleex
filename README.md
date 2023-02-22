@@ -25,3 +25,5 @@ Prenez des initiatives, il y a des points bonus si
 - Afficher un bouton `Supprimer` lorsqu'il y a un ou des film(s) sélectionnés.
 - Mettre un filtre par catégorie avec une liste de tags
 - Mettre une pagination
+- Ajouter un formulaire pour pouvoir ajouter un film
+- Ajouter un bouton `Ajouter un film`
