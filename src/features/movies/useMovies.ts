@@ -17,21 +17,7 @@ export const useMovies = () => {
   const isDisliked = (movie: Movie): boolean => dislikedMovies.find((dislikedMovie) => dislikedMovie.id === movie.id)
   const isSelected = (movie: Movie): boolean => selectedMovies.find((selectedMovie) => selectedMovie.id === movie.id)
 
-  const handleLikeMovieClick = (movie: Movie) => {
-    if (isLiked(movie)) {
-      setLikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
-      setMovies((prevState) =>
-        prevState.map((obj) => {
-          if (obj.id === movie.id) {
-            const tmpObj = { ...obj }
-            tmpObj.likes -= 1
-            return tmpObj
-          }
-          return obj
-        })
-      )
-      return
-    }
+  const addLike = (movie: Movie) => {
     setLikedMovies((prevState) => [...prevState, movie])
     setMovies((prevState) =>
       prevState.map((obj) => {
@@ -45,21 +31,21 @@ export const useMovies = () => {
     )
   }
 
-  const handleDislikeMovieClick = (movie: Movie) => {
-    if (isDisliked(movie)) {
-      setDislikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
-      setMovies((prevState) =>
-        prevState.map((obj) => {
-          if (obj.id === movie.id) {
-            const tmpObj = { ...obj }
-            tmpObj.dislikes -= 1
-            return tmpObj
-          }
-          return obj
-        })
-      )
-      return
-    }
+  const removeLike = (movie: Movie) => {
+    setLikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
+    setMovies((prevState) =>
+      prevState.map((obj) => {
+        if (obj.id === movie.id) {
+          const tmpObj = { ...obj }
+          tmpObj.likes -= 1
+          return tmpObj
+        }
+        return obj
+      })
+    )
+  }
+
+  const addDislike = (movie: Movie) => {
     setDislikedMovies((prevState) => [...prevState, movie])
     setMovies((prevState) =>
       prevState.map((obj) => {
@@ -71,6 +57,42 @@ export const useMovies = () => {
         return obj
       })
     )
+  }
+
+  const removeDislike = (movie: Movie) => {
+    setDislikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
+    setMovies((prevState) =>
+      prevState.map((obj) => {
+        if (obj.id === movie.id) {
+          const tmpObj = { ...obj }
+          tmpObj.dislikes -= 1
+          return tmpObj
+        }
+        return obj
+      })
+    )
+  }
+
+  const handleLikeMovieClick = (movie: Movie) => {
+    if (isDisliked(movie)) {
+      removeDislike(movie)
+    }
+    if (isLiked(movie)) {
+      removeLike(movie)
+      return
+    }
+    addLike(movie)
+  }
+
+  const handleDislikeMovieClick = (movie: Movie) => {
+    if (isLiked(movie)) {
+      removeLike(movie)
+    }
+    if (isDisliked(movie)) {
+      removeDislike(movie)
+      return
+    }
+    addDislike(movie)
   }
 
   const handleSelectAllChange = () => {
