@@ -24,6 +24,10 @@ export const CardHeaderLabel = styled.div`
   align-items: flex-start;
 `
 
+export const CardHeaderAction = styled.div`
+  align-self: flex-start;
+`
+
 export const Title = styled.div`
   color: red;
   text-overflow: ellipsis;

@@ -1,7 +1,8 @@
 import { ReactNode } from 'react'
 
 export enum ButtonColor {
-  RED = 'red',
+  NEUTRAL = '#d3d3d3',
+  RED = '#FC5C63',
 }
 
 export type ButtonProps = {

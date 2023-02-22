@@ -10,7 +10,12 @@ import { MovieCardProps } from './movie.type'
 export const MovieCard = ({ movie }: MovieCardProps) => {
   const { title, category, likes, dislikes } = movie
   return (
-    <Card title={title} subtitle={category} onRemoveClick={() => {}}>
+    <Card
+      title={title}
+      subtitle={category}
+      onRemoveClick={() => {}}
+      isChecked={false}
+    >
       <Feedback onLikeClick={() => {}} onDislikeClick={() => {}} />
       <Gauge likes={likes} dislikes={dislikes} />
       <Button color={ButtonColor.RED}>
