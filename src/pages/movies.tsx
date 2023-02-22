@@ -12,7 +12,7 @@ import React from 'react'
 import { CardList } from 'components/cardList/cardList.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { Movie } from 'types/movie'
-import { useMovies } from '../features/useMovies'
+import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
   const {
