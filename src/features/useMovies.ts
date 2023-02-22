@@ -1,11 +1,14 @@
 import { movies$ } from 'data/movies'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Movie } from 'types/movie'
+import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 
 export const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
+  const moviesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const initialState = Object.keys(moviesMap).map((category) => ({ category, checked: false }))
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -22,7 +25,7 @@ export const useMovies = () => {
   }, [])
 
   return {
-    movies,
+    movies: moviesMap,
     isLoading,
     isError,
   }

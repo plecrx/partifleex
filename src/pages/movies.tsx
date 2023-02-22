@@ -8,16 +8,14 @@ import {
   CategoryWrapper,
 } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { CardList } from 'components/cardList/cardList.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { Movie } from 'types/movie'
-import { mapMoviesOnCategory } from 'utils/mapMoviesOnCategory'
 import { useMovies } from '../features/useMovies'
 
 export const Movies = () => {
   const { movies, isLoading, isError } = useMovies()
-  const opportunitiesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
 
   const renderFilterBar = () => (
     <FilterbarWrapper>
@@ -56,7 +54,7 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(opportunitiesMap).map(([category, categoryMovies]) => (
+        {Object.entries(movies).map(([category, categoryMovies]) => (
           <CategoryWrapper>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>
