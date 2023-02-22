@@ -17,8 +17,7 @@ export const CheckboxInput = styled.input.attrs({ type: 'checkbox' })`
   margin: 0;
   outline-offset: 0;
   padding: 0;
-  transition: background-color 150ms ease-in-out 0s,
-    border-color 150ms ease-in-out 0s;
+  transition: background-color 150ms ease-in-out 0s, border-color 150ms ease-in-out 0s;
   width: inherit;
   &:checked {
     background-color: #fc5c63;
