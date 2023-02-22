@@ -7,11 +7,24 @@ import { Gauge } from 'components/gauge/gauge.component'
 import React from 'react'
 import { MovieCardProps } from './movie.type'
 
-export const MovieCard = ({ movie, isChecked, likeMovie, dislikeMovie, removeMovie }: MovieCardProps) => {
+export const MovieCard = ({
+  movie,
+  isChecked,
+  isLiked,
+  isDisliked,
+  onLikeMovieClick,
+  onDislikeMovieClick,
+  removeMovie,
+}: MovieCardProps) => {
   const { title, category, likes, dislikes } = movie
   return (
     <Card title={title} subtitle={category} onRemoveClick={removeMovie} isChecked={isChecked}>
-      <Feedback onLikeClick={likeMovie} onDislikeClick={dislikeMovie} />
+      <Feedback
+        onLikeClick={onLikeMovieClick}
+        onDislikeClick={onDislikeMovieClick}
+        isLiked={isLiked}
+        isDisliked={isDisliked}
+      />
       <Gauge likes={likes} dislikes={dislikes} />
       <Button color={ButtonColor.RED}>
         <TrashIcon width={16} />
