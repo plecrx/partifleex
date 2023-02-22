@@ -16,7 +16,6 @@ import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
   const {
-    removeMovie,
     handleLikeMovieClick,
     handleDislikeMovieClick,
     isLiked,
@@ -79,7 +78,6 @@ export const Movies = () => {
                   isDisliked={isDisliked(movie)}
                   onLikeMovieClick={() => handleLikeMovieClick(movie)}
                   onDislikeMovieClick={() => handleDislikeMovieClick(movie)}
-                  removeMovie={() => removeMovie(movie)}
                 />
               ))}
             </MoviesWrapper>

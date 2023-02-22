@@ -19,3 +19,9 @@ Prenez des initiatives, il y a des points bonus si
 * Il y a une attention aux détails
 
 /!\ La suppression du comportement asynchrone dans `movies.js` entraînera une annulation du test.
+
+
+## TODO
+- Afficher un bouton `Supprimer` lorsqu'il y a un ou des film(s) sélectionnés.
+- Mettre un filtre par catégorie avec une liste de tags
+- Mettre une pagination

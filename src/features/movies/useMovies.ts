@@ -17,27 +17,20 @@ export const useMovies = () => {
   const isDisliked = (movie: Movie): boolean => dislikedMovies.find((dislikedMovie) => dislikedMovie.id === movie.id)
   const isSelected = (movie: Movie): boolean => selectedMovies.find((selectedMovie) => selectedMovie.id === movie.id)
 
-  const handleLikeMovieClick = (movie: Movie) => {
-    if (isLiked(movie)) {
-      setLikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
-      setMovies((prevState) =>
-        prevState.map((obj) => {
-          if (obj.id === movie.id) {
-            const tmpObj = { ...obj }
-            tmpObj.likes -= 1
-            return tmpObj
-          }
-          return obj
-        })
-      )
-      return
-    }
-    setLikedMovies((prevState) => [...prevState, movie])
+  const addItemToList = (fn: (prevState: unknown) => void, item: unknown) => {
+    fn((prevState: Movie[]) => [...prevState, item])
+  }
+
+  const removeItemFromList = (fn: (prevState: unknown) => void, itemID: string) => {
+    fn((prevState: Movie[]) => prevState.filter((mv) => mv.id !== itemID))
+  }
+
+  const incrementValue = (movie: Movie, property: keyof Movie) => {
     setMovies((prevState) =>
       prevState.map((obj) => {
         if (obj.id === movie.id) {
           const tmpObj = { ...obj }
-          tmpObj.likes += 1
+          tmpObj[property.toString()] += 1
           return tmpObj
         }
         return obj
@@ -45,32 +38,59 @@ export const useMovies = () => {
     )
   }
 
-  const handleDislikeMovieClick = (movie: Movie) => {
-    if (isDisliked(movie)) {
-      setDislikedMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
-      setMovies((prevState) =>
-        prevState.map((obj) => {
-          if (obj.id === movie.id) {
-            const tmpObj = { ...obj }
-            tmpObj.dislikes -= 1
-            return tmpObj
-          }
-          return obj
-        })
-      )
-      return
-    }
-    setDislikedMovies((prevState) => [...prevState, movie])
+  const decrementValue = (movie: Movie, property: keyof Movie) => {
     setMovies((prevState) =>
       prevState.map((obj) => {
         if (obj.id === movie.id) {
           const tmpObj = { ...obj }
-          tmpObj.dislikes += 1
+          tmpObj[property.toString()] -= 1
           return tmpObj
         }
         return obj
       })
     )
+  }
+
+  const addLike = (movie: Movie) => {
+    addItemToList(setLikedMovies, movie)
+    incrementValue(movie, 'likes')
+  }
+
+  const addDislike = (movie: Movie) => {
+    addItemToList(setDislikedMovies, movie)
+    incrementValue(movie, 'dislikes')
+  }
+
+  const removeLike = (movie: Movie) => {
+    removeItemFromList(setLikedMovies, movie.id)
+    decrementValue(movie, 'likes')
+  }
+
+  const removeDislike = (movie: Movie) => {
+    removeItemFromList(setDislikedMovies, movie.id)
+    decrementValue(movie, 'dislikes')
+  }
+
+  const handleLikeMovieClick = (movie: Movie) => {
+    if (isDisliked(movie)) {
+      removeDislike(movie)
+    }
+    if (isLiked(movie)) {
+      removeLike(movie)
+      return
+    }
+    addLike(movie)
+  }
+
+  const handleDislikeMovieClick = (movie: Movie) => {
+    if (isLiked(movie)) {
+      removeLike(movie)
+    }
+    if (isDisliked(movie)) {
+      removeDislike(movie)
+      return
+    }
+    addDislike(movie)
   }
 
   const handleSelectAllChange = () => {
@@ -86,7 +106,7 @@ export const useMovies = () => {
   }
 
   const removeMovie = (movie: Movie) => {
-    setMovies((prevState) => prevState.filter((mv) => mv.id !== movie.id))
+    removeItemFromList(setMovies, movie.id)
   }
 
   useEffect(() => {
