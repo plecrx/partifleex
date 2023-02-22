@@ -8,10 +8,11 @@ import {
   CardHeader,
   CardHeaderLabel,
   Subtitle,
+  CardHeaderAction,
 } from './card.styles'
 import { CardProps } from './card.types'
 
-export const Card = ({ title, subtitle, children }: CardProps) => (
+export const Card = ({ title, subtitle, isChecked, children }: CardProps) => (
   <CardContainer>
     <CardBody>
       <CardHeader>
@@ -19,9 +20,9 @@ export const Card = ({ title, subtitle, children }: CardProps) => (
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
         </CardHeaderLabel>
-        <div style={{ alignSelf: 'flex-start' }}>
-          <Checkbox />
-        </div>
+        <CardHeaderAction>
+          <Checkbox isChecked={isChecked} onChange={() => {}} />
+        </CardHeaderAction>
       </CardHeader>
       {children && <ContentWrapper>{children}</ContentWrapper>}
     </CardBody>

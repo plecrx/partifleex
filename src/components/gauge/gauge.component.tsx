@@ -12,11 +12,7 @@ export const Gauge = ({ likes, dislikes }: GaugeProps) => {
       <div>
         <GaugeWrapper>
           <GaugeItem color={GaugeItemColors.like} ratio={likesRatio} isFirst />
-          <GaugeItem
-            color={GaugeItemColors.dislike}
-            ratio={dislikesRatio}
-            isLast
-          />
+          <GaugeItem color={GaugeItemColors.dislike} ratio={dislikesRatio} isLast />
         </GaugeWrapper>
         <GaugeLabelWrapper>
           <div style={{ color: GaugeItemColors.like }}>{likes}</div>
@@ -26,7 +22,5 @@ export const Gauge = ({ likes, dislikes }: GaugeProps) => {
     )
   }
 
-  return (
-    <GaugeItem color={GaugeItemColors.default} ratio={100} isFirst isLast />
-  )
+  return <GaugeItem color={GaugeItemColors.default} ratio={100} isFirst isLast />
 }

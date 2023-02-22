@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const CardContainer = styled.div`
-  width: 280px;
+  min-width: 272px;
   background: white;
   border-radius: 8px;
   box-sizing: border-box;
@@ -22,6 +22,10 @@ export const CardHeaderLabel = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+`
+
+export const CardHeaderAction = styled.div`
+  align-self: flex-start;
 `
 
 export const Title = styled.div`
@@ -51,10 +55,4 @@ export const ContentWrapper = styled.div`
   margin: 8px 0;
   min-height: 80px;
   gap: 24px;
-`
-
-export const RemoveButton = styled.div`
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
 `

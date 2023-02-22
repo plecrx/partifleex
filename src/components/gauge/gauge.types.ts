@@ -12,6 +12,6 @@ export type GaugeItemProps = {
 
 export enum GaugeItemColors {
   default = '#E5E7EB',
-  dislike = 'red',
-  like = 'green',
+  dislike = '#fc5c63',
+  like = '#0c806b',
 }

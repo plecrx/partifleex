@@ -1,14 +1,10 @@
 import React from 'react'
-import {
-  CardListContainer,
-  CardListTitle,
-  CardlistWrapper,
-} from './cardList.styles'
+import { CardListContainer, CardlistWrapper } from './cardList.styles'
 import { CardlistProps } from './cardList.types'
 
-export const CardList = ({ children, title }: CardlistProps) => (
+export const CardList = ({ filterBar, children }: CardlistProps) => (
   <CardListContainer>
-    <CardListTitle>{title}</CardListTitle>
+    {filterBar}
     <CardlistWrapper>{children}</CardlistWrapper>
   </CardListContainer>
 )

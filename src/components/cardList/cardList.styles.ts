@@ -3,23 +3,14 @@ import styled from 'styled-components'
 export const CardListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  padding: 0 96px;
-`
-
-export const CardListTitle = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 24px;
-  color: red;
+  padding: 0 64px;
 `
 
 export const CardlistWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 24px 0;
   gap: 24px;
-  margin-bottom: 24px;
 `

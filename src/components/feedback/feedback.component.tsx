@@ -9,17 +9,8 @@ import { ActionWrapper } from '../movie/movie.styles'
 import { FeedbackButton } from './feedback.styles'
 import { FeedbackColor, FeedbackProps } from './feedback.types'
 
-export const Feedback: React.FC<FeedbackProps> = ({
-  isLiked,
-  isDisliked,
-  onLikeClick,
-  onDislikeClick,
-}) => {
-  const renderIcon = (
-    Icon: HeroIconType,
-    OutlineIcon: HeroIconType,
-    selected: boolean
-  ) => {
+export const Feedback: React.FC<FeedbackProps> = ({ isLiked, isDisliked, onLikeClick, onDislikeClick }) => {
+  const renderIcon = (Icon: HeroIconType, OutlineIcon: HeroIconType, selected: boolean) => {
     if (selected) {
       return <Icon width={24} />
     }
