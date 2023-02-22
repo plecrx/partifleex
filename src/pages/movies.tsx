@@ -7,45 +7,17 @@ import {
   CategoryTitle,
   CategoryWrapper,
 } from 'components/movie/movie.styles'
-import { Container } from 'pages/movies.styles'
-import React, { useEffect, useMemo, useState } from 'react'
+import { CenterDiv, Container } from 'pages/movies.styles'
+import React, { useMemo } from 'react'
 import { CardList } from 'components/cardList/cardList.component'
 import { MovieCard } from 'components/movie/movie.component'
-import { movies$ } from 'data/movies'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/mapMoviesOnCategory'
+import { useMovies } from '../features/useMovies'
 
 export const Movies = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isError, setIsError] = useState(false)
-  const [movies, setMovies] = useState<Movie[]>([])
+  const { movies, isLoading, isError } = useMovies()
   const opportunitiesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      await movies$
-        .then((data) => {
-          setIsLoading(false)
-          setMovies(data as Movie[])
-        })
-        .catch(() => {
-          setIsError(true)
-        })
-    }
-    fetchMovies()
-  }, [])
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>An error occurred...</span>
-  }
-
-  if (!movies) {
-    return <span>No movies !</span>
-  }
 
   const renderFilterBar = () => (
     <FilterbarWrapper>
@@ -57,9 +29,32 @@ export const Movies = () => {
     </FilterbarWrapper>
   )
 
-  return (
-    <Container>
-      <Header title="Ma liste de films" />
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <CenterDiv>
+          <span>Loading...</span>
+        </CenterDiv>
+      )
+    }
+
+    if (isError) {
+      return (
+        <CenterDiv>
+          <span>An error occurred...</span>
+        </CenterDiv>
+      )
+    }
+
+    if (!movies) {
+      return (
+        <CenterDiv>
+          <span>No movies !</span>
+        </CenterDiv>
+      )
+    }
+
+    return (
       <CardList filterBar={renderFilterBar()}>
         {Object.entries(opportunitiesMap).map(([category, categoryMovies]) => (
           <CategoryWrapper>
@@ -79,6 +74,13 @@ export const Movies = () => {
           </CategoryWrapper>
         ))}
       </CardList>
+    )
+  }
+
+  return (
+    <Container>
+      <Header title="Ma liste de films" />
+      {renderContent()}
     </Container>
   )
 }
