@@ -22,10 +22,9 @@ Prenez des initiatives, il y a des points bonus si
 
 
 ## TODO
-- Mettre le sélecteur à gauche
+- Afficher un bouton `Supprimer` lorsqu'il y a un ou des film(s) sélectionnés.
 - Ajouter un bouton `Ajouter un film`
 - Ajouter un formulaire pour pouvoir ajouter un film
-- Afficher un bouton `Supprimer` lorsqu'il y a un ou des film(s) sélectionnés.
 - Mettre un filtre par catégorie avec une liste de tags plutôt qu'un multiselect
 - Ajouter une pagination
 - Ajouter un selecteur de nombre d'élément affichés par page
