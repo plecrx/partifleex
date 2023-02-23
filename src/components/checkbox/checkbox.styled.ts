@@ -20,8 +20,8 @@ export const CheckboxInput = styled.input.attrs({ type: 'checkbox' })`
   transition: background-color 150ms ease-in-out 0s, border-color 150ms ease-in-out 0s;
   width: inherit;
   &:checked {
-    background-color: #fc5c63;
-    border-color: #fc5c63;
+    background-color: #ff5047;
+    border-color: #ff5047;
   }
   &:disabled {
     cursor: not-allowed;
@@ -30,7 +30,7 @@ export const CheckboxInput = styled.input.attrs({ type: 'checkbox' })`
     cursor: pointer;
   }
   &:checked:focus {
-    outline: 1px dashed #fc5c63;
+    outline: 1px dashed #ff5047;
   }
   &:focus {
     outline: 1px dashed #d3d3d3;

@@ -5,6 +5,7 @@ import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 
 export const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([])
+  const [moviesCount, setMoviesCount] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
   const moviesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
@@ -93,8 +94,16 @@ export const useMovies = () => {
     addDislike(movie)
   }
 
+  const handleSelectMovie = (movie: Movie) => {
+    if (isSelected(movie)) {
+      removeItemFromList(setSelectedMovies, movie.id)
+      return
+    }
+    addItemToList(setSelectedMovies, movie)
+  }
+
   const handleSelectAllChange = () => {
-    if (selectedMovies.length !== 0) {
+    if (selectedMovies.length === moviesCount) {
       setSelectedMovies([])
       return
     }
@@ -102,7 +111,7 @@ export const useMovies = () => {
   }
 
   const addMovie = (movie: Movie) => {
-    setMovies((prevState) => [...prevState, movie])
+    addItemToList(setMovies, movie)
   }
 
   const removeMovie = (movie: Movie) => {
@@ -115,6 +124,7 @@ export const useMovies = () => {
         .then((data) => {
           setIsLoading(false)
           setMovies(data as Movie[])
+          setMoviesCount((data as Movie[]).length)
         })
         .catch(() => {
           setIsError(true)
@@ -125,6 +135,7 @@ export const useMovies = () => {
 
   return {
     movies: moviesMap,
+    moviesCount,
     isLoading,
     isError,
     addMovie,
@@ -134,6 +145,7 @@ export const useMovies = () => {
     isLiked,
     isDisliked,
     selectedMovies,
+    handleSelectMovie,
     handleSelectAllChange,
     isSelected,
   }

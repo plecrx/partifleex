@@ -8,13 +8,14 @@ import {
   CategoryWrapper,
 } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardList } from 'components/cardList/cardList.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { Movie } from 'types/movie'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
+  const [selectAllChecked, setSelectAllChecked] = useState(false)
   const {
     handleLikeMovieClick,
     handleDislikeMovieClick,
@@ -23,18 +24,23 @@ export const Movies = () => {
     isSelected,
     selectedMovies,
     handleSelectAllChange,
+    handleSelectMovie,
     movies,
+    moviesCount,
     isLoading,
     isError,
   } = useMovies()
 
+  useEffect(() => {
+    setSelectAllChecked(selectedMovies.length === moviesCount)
+  }, [handleSelectMovie, moviesCount, selectedMovies])
+
   const renderFilterBar = () => (
     <FilterbarWrapper>
       <Selector>
-        <Checkbox isChecked={!!selectedMovies.length} onChange={handleSelectAllChange} />
+        <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
         Tout sélectionner
       </Selector>
-      <Selector />
     </FilterbarWrapper>
   )
 
@@ -78,6 +84,7 @@ export const Movies = () => {
                   isDisliked={isDisliked(movie)}
                   onLikeMovieClick={() => handleLikeMovieClick(movie)}
                   onDislikeMovieClick={() => handleDislikeMovieClick(movie)}
+                  onMovieSelect={() => handleSelectMovie(movie)}
                 />
               ))}
             </MoviesWrapper>
