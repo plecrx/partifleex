@@ -3,9 +3,14 @@ import styled from 'styled-components'
 export const CardContainer = styled.div`
   min-width: 272px;
   background: white;
-  border-radius: 8px;
+  border-radius: 1rem;
   box-sizing: border-box;
-  border: 1px solid lightgray;
+  box-shadow: 0 0 20px 2px rgba(27, 6, 50, 0.1);
+  transition: 0.3s ease-in-out;
+  :hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 20px 2px rgba(27, 6, 50, 0.2);
+  }
 `
 
 export const CardBody = styled.div`
@@ -22,6 +27,7 @@ export const CardHeaderLabel = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  margin-bottom: 16px;
 `
 
 export const CardHeaderAction = styled.div`
@@ -29,8 +35,14 @@ export const CardHeaderAction = styled.div`
 `
 
 export const Title = styled.div`
-  color: red;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  color: black;
   text-overflow: ellipsis;
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
   overflow: hidden;
   white-space: nowrap;
 `

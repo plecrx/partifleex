@@ -11,10 +11,11 @@ export const MovieCard = ({
   isDisliked,
   onLikeMovieClick,
   onDislikeMovieClick,
+  onMovieSelect,
 }: MovieCardProps) => {
-  const { title, category, likes, dislikes } = movie
+  const { title, likes, dislikes } = movie
   return (
-    <Card title={title} subtitle={category} isChecked={isChecked}>
+    <Card title={title} isChecked={isChecked} onCardSelect={onMovieSelect}>
       <Feedback
         onLikeClick={onLikeMovieClick}
         onDislikeClick={onDislikeMovieClick}

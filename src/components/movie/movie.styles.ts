@@ -7,7 +7,6 @@ export const MoviesWrapper = styled.div`
 `
 
 export const FilterbarWrapper = styled(MoviesWrapper)`
-  flex-direction: row-reverse;
   gap: 8px;
 `
 
