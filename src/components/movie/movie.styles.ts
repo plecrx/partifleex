@@ -7,7 +7,8 @@ export const MoviesWrapper = styled.div`
 `
 
 export const FilterbarWrapper = styled(MoviesWrapper)`
-  gap: 8px;
+  justify-content: space-between;
+  gap: 16px;
 `
 
 export const ActionWrapper = styled.div`
@@ -16,15 +17,18 @@ export const ActionWrapper = styled.div`
   gap: 16px;
 `
 
-export const Selector = styled.div`
+export const Selector = styled.div<{ color?: string; backgroundColor?: string; cursor?: boolean }>`
   display: flex;
   align-items: center;
-  max-width: 168px;
   gap: 16px;
   padding: 16px;
   border-radius: 8px;
   border: 1px solid #d3d3d3;
-  background: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ color }) => color || 'black'};
+  background: ${({ backgroundColor }) => backgroundColor || 'white'};
+  cursor: ${({ cursor }) => cursor && 'pointer'};
 `
 
 export const CategoryTitle = styled.span`

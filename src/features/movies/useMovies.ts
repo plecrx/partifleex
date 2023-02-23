@@ -114,8 +114,10 @@ export const useMovies = () => {
     addItemToList(setMovies, movie)
   }
 
-  const removeMovie = (movie: Movie) => {
-    removeItemFromList(setMovies, movie.id)
+  const removeMovies = (moviesToRemove: Movie[]) => {
+    setMovies((prevState) =>
+      prevState.filter((movie) => !moviesToRemove.find((movieToRemove) => movieToRemove.id === movie.id))
+    )
   }
 
   useEffect(() => {
@@ -139,7 +141,7 @@ export const useMovies = () => {
     isLoading,
     isError,
     addMovie,
-    removeMovie,
+    removeMovies,
     handleLikeMovieClick,
     handleDislikeMovieClick,
     isLiked,
