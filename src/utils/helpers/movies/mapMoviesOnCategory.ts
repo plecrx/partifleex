@@ -1,7 +1,7 @@
-import { Movie } from 'types/movie'
+import { Movie, MovieMap } from 'types/movie';
 
-export const mapMoviesOnCategory = (movies: Movie[]): Record<string, Movie[]> => {
-  const categoryMap = movies.reduce<Record<string, Movie[]>>((map, { category }) => {
+export const mapMoviesOnCategory = (movies: Movie[]): MovieMap => {
+  const categoryMap = movies.reduce<MovieMap>((map, { category }) => {
     const tmpMap = map
     tmpMap[category] = []
     return tmpMap

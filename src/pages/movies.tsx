@@ -13,7 +13,6 @@ export const Movies = () => {
   const {
     // addMovie,
     categories,
-    categoriesMap,
     filteredCategoriesMap,
     handleDislikeMovieClick,
     handleLikeMovieClick,
@@ -27,20 +26,8 @@ export const Movies = () => {
     moviesCount,
     removeMovies,
     selectedMovies,
-    setFilteredCategoriesMap,
+    handleCategorySelectionChange,
   } = useMovies()
-
-  const handleCategorySelectionChange = (selection: string[]) => {
-    const filteredCategories: Record<string, Movie[]> = {}
-    selection.forEach((category) => {
-      if (category in filteredCategoriesMap) {
-        filteredCategories[category] = filteredCategoriesMap[category]
-        return
-      }
-      filteredCategories[category] = categoriesMap[category]
-    })
-    setFilteredCategoriesMap(filteredCategories)
-  }
 
   useEffect(() => {
     setSelectAllChecked(selectedMovies.length === moviesCount)

@@ -1,17 +1,16 @@
 import { movies$ } from 'data/movies'
-import { useEffect, useState } from 'react'
-import { Movie } from 'types/movie'
+import { useEffect, useMemo, useState } from 'react'
+import { Movie, MovieMap } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 
 export const useMovies = () => {
-  const [movies, setMovies] = useState<Movie[]>([])
-  const [moviesCount, setMoviesCount] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
-  const [categoriesMap, setCategoriesMap] = useState<Record<string, Movie[]>>({})
-  const [categories, setCategories] = useState<string[]>([])
-  const [filteredCategoriesMap, setFilteredCategoriesMap] = useState<Record<string, Movie[]>>(categoriesMap)
-
+  const [movies, setMovies] = useState<Movie[]>([])
+  const moviesCount: number = useMemo(() => movies.length, [movies])
+  const initialCategoriesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const categories: string[] = useMemo(() => Object.keys(initialCategoriesMap), [initialCategoriesMap])
+  const [filteredCategoriesMap, setFilteredCategoriesMap] = useState<MovieMap>(initialCategoriesMap)
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [likedMovies, setLikedMovies] = useState<Movie[]>([])
   const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
@@ -53,6 +52,16 @@ export const useMovies = () => {
         }
         return obj
       })
+    )
+  }
+
+  const addMovie = (movie: Movie) => {
+    addItemToList(setMovies, movie)
+  }
+
+  const removeMovies = (moviesToRemove: Movie[]) => {
+    setMovies((prevState) =>
+      prevState.filter((movie) => !moviesToRemove.find((movieToRemove) => movieToRemove.id === movie.id))
     )
   }
 
@@ -114,26 +123,23 @@ export const useMovies = () => {
     setSelectedMovies(movies)
   }
 
-  const addMovie = (movie: Movie) => {
-    addItemToList(setMovies, movie)
-  }
-
-  const removeMovies = (moviesToRemove: Movie[]) => {
-    setMovies((prevState) =>
-      prevState.filter((movie) => !moviesToRemove.find((movieToRemove) => movieToRemove.id === movie.id))
-    )
+  const handleCategorySelectionChange = (selection: string[]) => {
+    const categoriesMapSelection: MovieMap = {}
+    selection.forEach((category) => {
+      if (category in filteredCategoriesMap) {
+        categoriesMapSelection[category] = filteredCategoriesMap[category]
+        return
+      }
+      categoriesMapSelection[category] = initialCategoriesMap[category]
+    })
+    setFilteredCategoriesMap(categoriesMapSelection)
   }
 
   useEffect(() => {
     const fetchMovies = async () => {
       await movies$
         .then((data) => {
-          const dataCategoriesMap = mapMoviesOnCategory(data as Movie[])
           setMovies(data as Movie[])
-          setMoviesCount((data as Movie[]).length)
-          setCategoriesMap(dataCategoriesMap)
-          setCategories(Object.keys(dataCategoriesMap))
-          setFilteredCategoriesMap(dataCategoriesMap)
           setIsLoading(false)
         })
         .catch(() => {
@@ -144,10 +150,13 @@ export const useMovies = () => {
     fetchMovies()
   }, [])
 
+  useEffect(() => {
+    setFilteredCategoriesMap(initialCategoriesMap)
+  }, [initialCategoriesMap])
+
   return {
     addMovie,
     categories,
-    categoriesMap,
     filteredCategoriesMap,
     handleDislikeMovieClick,
     handleLikeMovieClick,
@@ -161,6 +170,6 @@ export const useMovies = () => {
     moviesCount,
     removeMovies,
     selectedMovies,
-    setFilteredCategoriesMap,
+    handleCategorySelectionChange,
   }
 }
