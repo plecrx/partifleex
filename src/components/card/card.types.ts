@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 
 export type CardProps = {
-  title?: string | ReactNode
-  subtitle?: string | ReactNode
+  children?: string | ReactNode
   isChecked?: boolean
   onCardSelect?: () => void
-  children?: string | ReactNode
+  subtitle?: string | ReactNode
+  title?: string | ReactNode
 }

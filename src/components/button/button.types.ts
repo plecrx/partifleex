@@ -1,8 +1,12 @@
 import { ReactNode } from 'react'
-import { CSSProperties } from 'styled-components'
+
+export enum ButtonVariant {
+  RED = 'red',
+  GREEN = 'green',
+}
 
 export type ButtonProps = {
-  css: CSSProperties
-  onClick: () => void
   children: ReactNode
+  onClick: () => void
+  variant: ButtonVariant
 }

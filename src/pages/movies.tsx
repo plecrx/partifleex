@@ -1,68 +1,61 @@
-import { TrashIcon } from '@heroicons/react/20/solid'
-import { Button } from 'components/button/button.component'
 import { CardList } from 'components/cardList/cardList.component'
-import { Checkbox } from 'components/checkbox/checkbox.component'
+import { FilterBar } from 'components/filterbar/filterbar.component'
 import { Header } from 'components/header/header.component'
 import { MovieCard } from 'components/movie/movie.component'
-import {
-  CategoryTitle,
-  CategoryWrapper,
-  FilterbarWrapper,
-  MoviesWrapper,
-  Selector,
-} from 'components/movie/movie.styles'
+import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
 import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
-  const [selectAllChecked, setSelectAllChecked] = useState(false)
+  const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
   const {
-    handleLikeMovieClick,
+    // addMovie,
+    categories,
+    categoriesMap,
+    filteredCategoriesMap,
     handleDislikeMovieClick,
-    isLiked,
-    isDisliked,
-    isSelected,
-    selectedMovies,
+    handleLikeMovieClick,
     handleSelectAllChange,
     handleSelectMovie,
-    // addMovie,
-    removeMovies,
-    movies,
-    moviesCount,
-    isLoading,
+    isDisliked,
     isError,
+    isLiked,
+    isLoading,
+    isSelected,
+    moviesCount,
+    removeMovies,
+    selectedMovies,
+    setFilteredCategoriesMap,
   } = useMovies()
+
+  const handleCategorySelectionChange = (selection: string[]) => {
+    const filteredCategories: Record<string, Movie[]> = {}
+    selection.forEach((category) => {
+      if (category in filteredCategoriesMap) {
+        filteredCategories[category] = filteredCategoriesMap[category]
+        return
+      }
+      filteredCategories[category] = categoriesMap[category]
+    })
+    setFilteredCategoriesMap(filteredCategories)
+  }
 
   useEffect(() => {
     setSelectAllChecked(selectedMovies.length === moviesCount)
   }, [handleSelectMovie, moviesCount, selectedMovies])
 
   const renderFilterBar = () => (
-    <FilterbarWrapper>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Selector>
-          <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
-          Tout sélectionner
-        </Selector>
-        <Selector>Filtrer par catégorie</Selector>
-      </div>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        {!!selectedMovies.length && (
-          <Button css={{ backgroundColor: 'red', color: 'white' }} onClick={() => removeMovies(selectedMovies)}>
-            <TrashIcon width={16} />
-            Supprimer
-          </Button>
-        )}
-        {/*
-        <Button css={{ backgroundColor: 'green', color: 'white' }} onClick={() => {}}>
-          <PlusIcon width={16} />
-          Ajouter un film
-        </Button>
-        */}
-      </div>
-    </FilterbarWrapper>
+    <FilterBar
+      selectAllChecked={selectAllChecked}
+      handleSelectAllChange={handleSelectAllChange}
+      categories={categories}
+      handleCategorySelectionChange={handleCategorySelectionChange}
+      selectedMovies={selectedMovies}
+      removeAction={() => removeMovies(selectedMovies)}
+      showRemoveButton={!!selectedMovies.length}
+    />
   )
 
   const renderContent = () => {
@@ -82,7 +75,7 @@ export const Movies = () => {
       )
     }
 
-    if (!movies) {
+    if (!filteredCategoriesMap) {
       return (
         <CenterDiv>
           <span>No movies !</span>
@@ -92,13 +85,13 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(movies).map(([category, categoryMovies]) => (
+        {Object.entries(filteredCategoriesMap).map(([category, categoryMovies]) => (
           <CategoryWrapper key={`category-${category}`}>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>
               {categoryMovies.map((movie: Movie) => (
                 <MovieCard
-                  key={`category-${category}-${movie.title}-${Math.random()}`}
+                  key={`movie-${movie.title}-${Math.random()}`}
                   movie={movie}
                   isChecked={isSelected(movie)}
                   isLiked={isLiked(movie)}

@@ -1,5 +1,5 @@
 import { movies$ } from 'data/movies'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 
@@ -8,21 +8,25 @@ export const useMovies = () => {
   const [moviesCount, setMoviesCount] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
-  const moviesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const [categoriesMap, setCategoriesMap] = useState<Record<string, Movie[]>>({})
+  const [categories, setCategories] = useState<string[]>([])
+  const [filteredCategoriesMap, setFilteredCategoriesMap] = useState<Record<string, Movie[]>>(categoriesMap)
 
-  const [selectedMovies, setSelectedMovies] = useState([])
-  const [likedMovies, setLikedMovies] = useState([])
-  const [dislikedMovies, setDislikedMovies] = useState([])
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
+  const [likedMovies, setLikedMovies] = useState<Movie[]>([])
+  const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
 
-  const isLiked = (movie: Movie): boolean => likedMovies.find((likedMovie) => likedMovie.id === movie.id)
-  const isDisliked = (movie: Movie): boolean => dislikedMovies.find((dislikedMovie) => dislikedMovie.id === movie.id)
-  const isSelected = (movie: Movie): boolean => selectedMovies.find((selectedMovie) => selectedMovie.id === movie.id)
+  const isLiked = (movie: Movie): boolean => !!likedMovies.find((likedMovie: Movie) => likedMovie.id === movie.id)
+  const isDisliked = (movie: Movie): boolean =>
+    !!dislikedMovies.find((dislikedMovie: Movie) => dislikedMovie.id === movie.id)
+  const isSelected = (movie: Movie): boolean =>
+    !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
 
-  const addItemToList = (fn: (prevState: unknown) => void, item: unknown) => {
+  const addItemToList = (fn: (prevState) => void, item: Movie) => {
     fn((prevState: Movie[]) => [...prevState, item])
   }
 
-  const removeItemFromList = (fn: (prevState: unknown) => void, itemID: string) => {
+  const removeItemFromList = (fn: (prevState) => void, itemID: string) => {
     fn((prevState: Movie[]) => prevState.filter((mv) => mv.id !== itemID))
   }
 
@@ -124,11 +128,16 @@ export const useMovies = () => {
     const fetchMovies = async () => {
       await movies$
         .then((data) => {
-          setIsLoading(false)
+          const dataCategoriesMap = mapMoviesOnCategory(data as Movie[])
           setMovies(data as Movie[])
           setMoviesCount((data as Movie[]).length)
+          setCategoriesMap(dataCategoriesMap)
+          setCategories(Object.keys(dataCategoriesMap))
+          setFilteredCategoriesMap(dataCategoriesMap)
+          setIsLoading(false)
         })
         .catch(() => {
+          setIsLoading(false)
           setIsError(true)
         })
     }
@@ -136,19 +145,22 @@ export const useMovies = () => {
   }, [])
 
   return {
-    movies: moviesMap,
-    moviesCount,
-    isLoading,
-    isError,
     addMovie,
-    removeMovies,
-    handleLikeMovieClick,
+    categories,
+    categoriesMap,
+    filteredCategoriesMap,
     handleDislikeMovieClick,
-    isLiked,
-    isDisliked,
-    selectedMovies,
-    handleSelectMovie,
+    handleLikeMovieClick,
     handleSelectAllChange,
+    handleSelectMovie,
+    isDisliked,
+    isError,
+    isLiked,
+    isLoading,
     isSelected,
+    moviesCount,
+    removeMovies,
+    selectedMovies,
+    setFilteredCategoriesMap,
   }
 }

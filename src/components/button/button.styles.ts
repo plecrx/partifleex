@@ -7,8 +7,8 @@ export const Container = styled.button<ButtonProps>`
   gap: 8px;
   padding: 16px;
   border-radius: 8px;
-  background: ${({ css }) => css.backgroundColor};
-  color: ${({ css }) => css.color};
+  background-color: ${({ variant }) => variant};
+  color: white;
   border: 1px solid #d3d3d3;
   font-size: 16px;
   font-weight: 600;

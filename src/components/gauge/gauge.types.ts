@@ -1,17 +1,17 @@
 export type GaugeProps = {
-  likes: number
   dislikes: number
+  likes: number
 }
 
 export type GaugeItemProps = {
+  color: string
   isFirst?: boolean
   isLast?: boolean
-  color: string
   ratio: number
 }
 
-export enum GaugeItemColors {
-  default = '#E5E7EB',
-  dislike = '#fc5c63',
-  like = '#0c806b',
+export enum GaugeItemColor {
+  DEFAULT = '#E5E7EB',
+  DISLIKE = '#fc5c63',
+  LIKE = '#0c806b',
 }

@@ -11,17 +11,15 @@ import { FeedbackColor, FeedbackProps } from './feedback.types'
 
 export const Feedback: React.FC<FeedbackProps> = ({ isLiked, isDisliked, onLikeClick, onDislikeClick }) => {
   const renderIcon = (Icon: HeroIconType, OutlineIcon: HeroIconType, selected: boolean) => {
-    if (selected) {
-      return <Icon width={24} />
-    }
-    return <OutlineIcon width={24} />
+    const iconSize = 24
+    return selected ? <Icon width={iconSize} /> : <OutlineIcon width={iconSize} />
   }
   return (
     <ActionWrapper>
-      <FeedbackButton color={FeedbackColor.disliked} onClick={onDislikeClick}>
+      <FeedbackButton color={FeedbackColor.DISLIKED} onClick={onDislikeClick}>
         {renderIcon(HandThumbDownIcon, OutlineHandThumbDownIcon, isDisliked)}
       </FeedbackButton>
-      <FeedbackButton color={FeedbackColor.liked} onClick={onLikeClick}>
+      <FeedbackButton color={FeedbackColor.LIKED} onClick={onLikeClick}>
         {renderIcon(HandThumbUpIcon, OutlineHandThumbUpIcon, isLiked)}
       </FeedbackButton>
     </ActionWrapper>
