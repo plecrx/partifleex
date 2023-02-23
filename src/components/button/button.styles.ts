@@ -5,10 +5,12 @@ export const Container = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px;
+  padding: 16px;
   border-radius: 8px;
-  color: ${({ color }) => color};
+  background: ${({ css }) => css.backgroundColor};
+  color: ${({ css }) => css.color};
   border: 1px solid #d3d3d3;
-  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 `

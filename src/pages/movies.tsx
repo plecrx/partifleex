@@ -1,16 +1,18 @@
+import { TrashIcon } from '@heroicons/react/20/solid'
+import { Button } from 'components/button/button.component'
+import { CardList } from 'components/cardList/cardList.component'
 import { Checkbox } from 'components/checkbox/checkbox.component'
 import { Header } from 'components/header/header.component'
+import { MovieCard } from 'components/movie/movie.component'
 import {
-  Selector,
-  MoviesWrapper,
-  FilterbarWrapper,
   CategoryTitle,
   CategoryWrapper,
+  FilterbarWrapper,
+  MoviesWrapper,
+  Selector,
 } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
 import React, { useEffect, useState } from 'react'
-import { CardList } from 'components/cardList/cardList.component'
-import { MovieCard } from 'components/movie/movie.component'
 import { Movie } from 'types/movie'
 import { useMovies } from '../features/movies/useMovies'
 
@@ -25,6 +27,8 @@ export const Movies = () => {
     selectedMovies,
     handleSelectAllChange,
     handleSelectMovie,
+    // addMovie,
+    removeMovies,
     movies,
     moviesCount,
     isLoading,
@@ -37,10 +41,27 @@ export const Movies = () => {
 
   const renderFilterBar = () => (
     <FilterbarWrapper>
-      <Selector>
-        <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
-        Tout sélectionner
-      </Selector>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Selector>
+          <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
+          Tout sélectionner
+        </Selector>
+        <Selector>Filtrer par catégorie</Selector>
+      </div>
+      <div style={{ display: 'flex', gap: '8px' }}>
+        {!!selectedMovies.length && (
+          <Button css={{ backgroundColor: 'red', color: 'white' }} onClick={() => removeMovies(selectedMovies)}>
+            <TrashIcon width={16} />
+            Supprimer
+          </Button>
+        )}
+        {/*
+        <Button css={{ backgroundColor: 'green', color: 'white' }} onClick={() => {}}>
+          <PlusIcon width={16} />
+          Ajouter un film
+        </Button>
+        */}
+      </div>
     </FilterbarWrapper>
   )
 
