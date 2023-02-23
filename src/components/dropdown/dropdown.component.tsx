@@ -3,13 +3,13 @@ import { DropdownOption, DropdownProps } from 'components/dropdown/dropdown.type
 import React, { FC, useState } from 'react'
 
 export const Dropdown: FC<DropdownProps> = ({ options, onSelectionChange }) => {
-  const mappedOptions: DropdownOption[] = options.map((str) => ({ value: str, label: str }))
-  const [selectedOptions, setSelectedOptions] = useState<DropdownOption[]>(mappedOptions)
+  const [selectedOptions, setSelectedOptions] = useState(options)
 
-  const handleSelectChange = (updatedOptions: DropdownOption[]) => {
-    const selectionList = updatedOptions.map((updatedOption) => updatedOption.value)
-    onSelectionChange(selectionList)
-    setSelectedOptions(updatedOptions)
+  const handleSelectChange = (value: DropdownOption[]) => {
+    const categoryList = value.map((stn) => stn.value)
+
+    setSelectedOptions(value)
+    onSelectionChange(categoryList)
   }
 
   return (
@@ -19,7 +19,7 @@ export const Dropdown: FC<DropdownProps> = ({ options, onSelectionChange }) => {
         defaultValue={selectedOptions}
         placeholder="Filtrer par catégorie"
         onChange={handleSelectChange}
-        options={mappedOptions}
+        options={options}
         isSearchable
         isMulti
       />
