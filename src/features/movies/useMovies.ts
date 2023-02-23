@@ -1,5 +1,5 @@
 import { movies$ } from 'data/movies'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 
@@ -8,15 +8,19 @@ export const useMovies = () => {
   const [moviesCount, setMoviesCount] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
-  const moviesMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const [categoriesMap, setCategoriesMap] = useState<Record<string, Movie[]>>({})
+  const [categories, setCategories] = useState<string[]>([])
+  const [filteredCategoriesMap, setFilteredCategoriesMap] = useState<Record<string, Movie[]>>(categoriesMap)
 
-  const [selectedMovies, setSelectedMovies] = useState([])
-  const [likedMovies, setLikedMovies] = useState([])
-  const [dislikedMovies, setDislikedMovies] = useState([])
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
+  const [likedMovies, setLikedMovies] = useState<Movie[]>([])
+  const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
 
-  const isLiked = (movie: Movie): boolean => likedMovies.find((likedMovie) => likedMovie.id === movie.id)
-  const isDisliked = (movie: Movie): boolean => dislikedMovies.find((dislikedMovie) => dislikedMovie.id === movie.id)
-  const isSelected = (movie: Movie): boolean => selectedMovies.find((selectedMovie) => selectedMovie.id === movie.id)
+  const isLiked = (movie: Movie): boolean => !!likedMovies.find((likedMovie: Movie) => likedMovie.id === movie.id)
+  const isDisliked = (movie: Movie): boolean =>
+    !!dislikedMovies.find((dislikedMovie: Movie) => dislikedMovie.id === movie.id)
+  const isSelected = (movie: Movie): boolean =>
+    !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
 
   const addItemToList = (fn: (prevState: unknown) => void, item: unknown) => {
     fn((prevState: Movie[]) => [...prevState, item])
@@ -127,6 +131,10 @@ export const useMovies = () => {
           setIsLoading(false)
           setMovies(data as Movie[])
           setMoviesCount((data as Movie[]).length)
+          const dataCategoriesMap = mapMoviesOnCategory(data as Movie[])
+          setCategoriesMap(dataCategoriesMap)
+          setCategories(Object.keys(dataCategoriesMap))
+          setFilteredCategoriesMap(dataCategoriesMap)
         })
         .catch(() => {
           setIsError(true)
@@ -136,8 +144,9 @@ export const useMovies = () => {
   }, [])
 
   return {
-    movies: moviesMap,
+    categoriesMap,
     moviesCount,
+    categories,
     isLoading,
     isError,
     addMovie,
@@ -150,5 +159,7 @@ export const useMovies = () => {
     handleSelectMovie,
     handleSelectAllChange,
     isSelected,
+    filteredCategoriesMap,
+    setFilteredCategoriesMap,
   }
 }

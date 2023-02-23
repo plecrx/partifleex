@@ -2,6 +2,7 @@ import { TrashIcon } from '@heroicons/react/20/solid'
 import { Button } from 'components/button/button.component'
 import { CardList } from 'components/cardList/cardList.component'
 import { Checkbox } from 'components/checkbox/checkbox.component'
+import { Dropdown } from 'components/dropdown/dropdown.component'
 import { Header } from 'components/header/header.component'
 import { MovieCard } from 'components/movie/movie.component'
 import {
@@ -17,7 +18,6 @@ import { Movie } from 'types/movie'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
-  const [selectAllChecked, setSelectAllChecked] = useState(false)
   const {
     handleLikeMovieClick,
     handleDislikeMovieClick,
@@ -27,13 +27,31 @@ export const Movies = () => {
     selectedMovies,
     handleSelectAllChange,
     handleSelectMovie,
+    categoriesMap,
+    filteredCategoriesMap,
+    setFilteredCategoriesMap,
     // addMovie,
     removeMovies,
-    movies,
     moviesCount,
+    categories,
     isLoading,
     isError,
   } = useMovies()
+  const [selectAllChecked, setSelectAllChecked] = useState(false)
+
+  const handleCategorySelectionChange = (selection: string[]) => {
+    const filteredCategories: Record<string, Movie[]> = {}
+
+    selection.forEach((category) => {
+      if (category in filteredCategoriesMap) {
+        filteredCategories[category] = filteredCategoriesMap[category]
+        return
+      }
+      filteredCategories[category] = categoriesMap[category]
+    })
+
+    setFilteredCategoriesMap(filteredCategories)
+  }
 
   useEffect(() => {
     setSelectAllChecked(selectedMovies.length === moviesCount)
@@ -46,7 +64,10 @@ export const Movies = () => {
           <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
           Tout sélectionner
         </Selector>
-        <Selector>Filtrer par catégorie</Selector>
+        <Dropdown
+          options={categories.map((str) => ({ value: str, label: str }))}
+          onSelectionChange={handleCategorySelectionChange}
+        />
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
         {!!selectedMovies.length && (
@@ -82,7 +103,7 @@ export const Movies = () => {
       )
     }
 
-    if (!movies) {
+    if (!filteredCategoriesMap) {
       return (
         <CenterDiv>
           <span>No movies !</span>
@@ -92,7 +113,7 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(movies).map(([category, categoryMovies]) => (
+        {Object.entries(filteredCategoriesMap).map(([category, categoryMovies]) => (
           <CategoryWrapper key={`category-${category}`}>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>

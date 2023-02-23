@@ -17,7 +17,7 @@ export const ActionWrapper = styled.div`
   gap: 16px;
 `
 
-export const Selector = styled.div<{ color?: string; backgroundColor?: string; cursor?: boolean }>`
+export const Selector = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -26,9 +26,9 @@ export const Selector = styled.div<{ color?: string; backgroundColor?: string; c
   border: 1px solid #d3d3d3;
   font-size: 16px;
   font-weight: 500;
-  color: ${({ color }) => color || 'black'};
-  background: ${({ backgroundColor }) => backgroundColor || 'white'};
-  cursor: ${({ cursor }) => cursor && 'pointer'};
+  color: black;
+  background: white;
+  cursor: pointer;
 `
 
 export const CategoryTitle = styled.span`
