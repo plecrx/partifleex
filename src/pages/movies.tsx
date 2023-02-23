@@ -1,47 +1,37 @@
-import { TrashIcon } from '@heroicons/react/20/solid'
-import { Button } from 'components/button/button.component'
 import { CardList } from 'components/cardList/cardList.component'
-import { Checkbox } from 'components/checkbox/checkbox.component'
-import { Dropdown } from 'components/dropdown/dropdown.component'
+import { FilterBar } from 'components/filterbar/filterbar.component'
 import { Header } from 'components/header/header.component'
 import { MovieCard } from 'components/movie/movie.component'
-import {
-  CategoryTitle,
-  CategoryWrapper,
-  FilterbarWrapper,
-  MoviesWrapper,
-  Selector,
-} from 'components/movie/movie.styles'
+import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
 import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
+  const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
   const {
-    handleLikeMovieClick,
-    handleDislikeMovieClick,
-    isLiked,
-    isDisliked,
-    isSelected,
-    selectedMovies,
-    handleSelectAllChange,
-    handleSelectMovie,
+    // addMovie,
+    categories,
     categoriesMap,
     filteredCategoriesMap,
-    setFilteredCategoriesMap,
-    // addMovie,
-    removeMovies,
-    moviesCount,
-    categories,
-    isLoading,
+    handleDislikeMovieClick,
+    handleLikeMovieClick,
+    handleSelectAllChange,
+    handleSelectMovie,
+    isDisliked,
     isError,
+    isLiked,
+    isLoading,
+    isSelected,
+    moviesCount,
+    removeMovies,
+    selectedMovies,
+    setFilteredCategoriesMap,
   } = useMovies()
-  const [selectAllChecked, setSelectAllChecked] = useState(false)
 
   const handleCategorySelectionChange = (selection: string[]) => {
     const filteredCategories: Record<string, Movie[]> = {}
-
     selection.forEach((category) => {
       if (category in filteredCategoriesMap) {
         filteredCategories[category] = filteredCategoriesMap[category]
@@ -49,7 +39,6 @@ export const Movies = () => {
       }
       filteredCategories[category] = categoriesMap[category]
     })
-
     setFilteredCategoriesMap(filteredCategories)
   }
 
@@ -58,32 +47,15 @@ export const Movies = () => {
   }, [handleSelectMovie, moviesCount, selectedMovies])
 
   const renderFilterBar = () => (
-    <FilterbarWrapper>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <Selector>
-          <Checkbox isChecked={selectAllChecked} onChange={handleSelectAllChange} />
-          Tout sélectionner
-        </Selector>
-        <Dropdown
-          options={categories.map((str) => ({ value: str, label: str }))}
-          onSelectionChange={handleCategorySelectionChange}
-        />
-      </div>
-      <div style={{ display: 'flex', gap: '8px' }}>
-        {!!selectedMovies.length && (
-          <Button css={{ backgroundColor: 'red', color: 'white' }} onClick={() => removeMovies(selectedMovies)}>
-            <TrashIcon width={16} />
-            Supprimer
-          </Button>
-        )}
-        {/*
-        <Button css={{ backgroundColor: 'green', color: 'white' }} onClick={() => {}}>
-          <PlusIcon width={16} />
-          Ajouter un film
-        </Button>
-        */}
-      </div>
-    </FilterbarWrapper>
+    <FilterBar
+      selectAllChecked={selectAllChecked}
+      handleSelectAllChange={handleSelectAllChange}
+      categories={categories}
+      handleCategorySelectionChange={handleCategorySelectionChange}
+      selectedMovies={selectedMovies}
+      removeAction={() => removeMovies(selectedMovies)}
+      showRemoveButton={!!selectedMovies.length}
+    />
   )
 
   const renderContent = () => {
@@ -119,7 +91,7 @@ export const Movies = () => {
             <MoviesWrapper>
               {categoryMovies.map((movie: Movie) => (
                 <MovieCard
-                  key={`category-${category}-${movie.title}-${Math.random()}`}
+                  key={`movie-${movie.title}-${Math.random()}`}
                   movie={movie}
                   isChecked={isSelected(movie)}
                   isLiked={isLiked(movie)}
