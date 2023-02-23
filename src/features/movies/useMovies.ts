@@ -22,11 +22,11 @@ export const useMovies = () => {
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
 
-  const addItemToList = (fn: (prevState: unknown) => void, item: unknown) => {
+  const addItemToList = (fn: (prevState) => void, item: Movie) => {
     fn((prevState: Movie[]) => [...prevState, item])
   }
 
-  const removeItemFromList = (fn: (prevState: unknown) => void, itemID: string) => {
+  const removeItemFromList = (fn: (prevState) => void, itemID: string) => {
     fn((prevState: Movie[]) => prevState.filter((mv) => mv.id !== itemID))
   }
 
@@ -128,15 +128,16 @@ export const useMovies = () => {
     const fetchMovies = async () => {
       await movies$
         .then((data) => {
-          setIsLoading(false)
+          const dataCategoriesMap = mapMoviesOnCategory(data as Movie[])
           setMovies(data as Movie[])
           setMoviesCount((data as Movie[]).length)
-          const dataCategoriesMap = mapMoviesOnCategory(data as Movie[])
           setCategoriesMap(dataCategoriesMap)
           setCategories(Object.keys(dataCategoriesMap))
           setFilteredCategoriesMap(dataCategoriesMap)
+          setIsLoading(false)
         })
         .catch(() => {
+          setIsLoading(false)
           setIsError(true)
         })
     }
@@ -144,22 +145,22 @@ export const useMovies = () => {
   }, [])
 
   return {
-    categoriesMap,
-    moviesCount,
-    categories,
-    isLoading,
-    isError,
     addMovie,
-    removeMovies,
-    handleLikeMovieClick,
-    handleDislikeMovieClick,
-    isLiked,
-    isDisliked,
-    selectedMovies,
-    handleSelectMovie,
-    handleSelectAllChange,
-    isSelected,
+    categories,
+    categoriesMap,
     filteredCategoriesMap,
+    handleDislikeMovieClick,
+    handleLikeMovieClick,
+    handleSelectAllChange,
+    handleSelectMovie,
+    isDisliked,
+    isError,
+    isLiked,
+    isLoading,
+    isSelected,
+    moviesCount,
+    removeMovies,
+    selectedMovies,
     setFilteredCategoriesMap,
   }
 }
