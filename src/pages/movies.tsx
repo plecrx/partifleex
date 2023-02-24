@@ -12,8 +12,8 @@ export const Movies = () => {
   const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
   const {
     // addMovie,
-    categories,
-    filteredCategoriesMap,
+    filteredCategories,
+    filteredMoviesMap,
     handleDislikeMovieClick,
     handleLikeMovieClick,
     handleSelectAllChange,
@@ -37,7 +37,7 @@ export const Movies = () => {
     <FilterBar
       selectAllChecked={selectAllChecked}
       handleSelectAllChange={handleSelectAllChange}
-      categories={categories}
+      categories={filteredCategories}
       handleCategorySelectionChange={handleCategorySelectionChange}
       selectedMovies={selectedMovies}
       removeAction={() => removeMovies(selectedMovies)}
@@ -62,7 +62,7 @@ export const Movies = () => {
       )
     }
 
-    if (!filteredCategoriesMap) {
+    if (!filteredMoviesMap) {
       return (
         <CenterDiv>
           <span>No movies !</span>
@@ -72,7 +72,7 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(filteredCategoriesMap).map(([category, categoryMovies]) => (
+        {Object.entries(filteredMoviesMap).map(([category, categoryMovies]) => (
           <CategoryWrapper key={`category-${category}`}>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>

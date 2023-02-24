@@ -9,9 +9,9 @@ export const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies)
   const moviesCount: number = useMemo(() => movies.length, [movies])
-  const initialCategoriesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
-  const categories: string[] = useMemo(() => Object.keys(initialCategoriesMap), [initialCategoriesMap])
-  const [filteredCategoriesMap, setFilteredCategoriesMap] = useState<MovieMap>(initialCategoriesMap)
+  const initialMoviesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const [filteredCategories, setFilteredCategories] = useState<string[]>(Object.keys(initialMoviesMap))
+  const [filteredMoviesMap, setFilteredMoviesMap] = useState<MovieMap>(initialMoviesMap)
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [likedMovies, setLikedMovies] = useState<Movie[]>([])
   const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
@@ -128,13 +128,13 @@ export const useMovies = () => {
   const handleCategorySelectionChange = (selection: string[]) => {
     const categoriesMapSelection: MovieMap = {}
     selection.forEach((category) => {
-      if (category in filteredCategoriesMap) {
-        categoriesMapSelection[category] = filteredCategoriesMap[category]
+      if (category in filteredMoviesMap) {
+        categoriesMapSelection[category] = filteredMoviesMap[category]
         return
       }
-      categoriesMapSelection[category] = initialCategoriesMap[category]
+      categoriesMapSelection[category] = initialMoviesMap[category]
     })
-    setFilteredCategoriesMap(categoriesMapSelection)
+    setFilteredMoviesMap(categoriesMapSelection)
   }
 
   useEffect(() => {
@@ -143,6 +143,7 @@ export const useMovies = () => {
         .then((data) => {
           setMovies(data as Movie[])
           setFilteredMovies(data as Movie[])
+          setFilteredCategories(Object.keys(mapMoviesOnCategory(data as Movie[])))
           setIsLoading(false)
         })
         .catch(() => {
@@ -154,13 +155,17 @@ export const useMovies = () => {
   }, [])
 
   useEffect(() => {
-    setFilteredCategoriesMap(initialCategoriesMap)
-  }, [initialCategoriesMap])
+    setFilteredMoviesMap(initialMoviesMap)
+  }, [initialMoviesMap])
+
+  useEffect(() => {
+    setFilteredCategories(Object.keys(mapMoviesOnCategory(movies)))
+  }, [movies])
 
   return {
     addMovie,
-    categories,
-    filteredCategoriesMap,
+    filteredCategories,
+    filteredMoviesMap,
     handleDislikeMovieClick,
     handleLikeMovieClick,
     handleSelectAllChange,
