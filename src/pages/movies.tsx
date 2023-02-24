@@ -7,19 +7,17 @@ import { CenterDiv, Container } from 'pages/movies.styles'
 import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
+import { useFeedbacks } from '../features/movies/useFeedbacks'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
+  const { onDislikeMovie, onLikeMovie, isLiked, isDisliked } = useFeedbacks(setFilteredMovies)
   const {
     // addMovie,
-    onDislikeMovie,
-    onLikeMovie,
-    isDisliked,
     isError,
-    isLiked,
     isLoading,
     movies,
     removeMovies,
@@ -62,6 +60,9 @@ export const Movies = () => {
 
   const handleRemoveMovies = () => {
     removeMovies(selectedMovies)
+    setFilteredMovies((prevState) =>
+      prevState.filter((movie) => selectedMovies.map((selectedMovie) => movie.id !== selectedMovie.id))
+    )
     setSelectedMovies([])
   }
 
