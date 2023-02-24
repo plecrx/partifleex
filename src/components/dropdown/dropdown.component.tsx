@@ -1,25 +1,29 @@
 import { Container, StyledSelect } from 'components/dropdown/dropdown.styles'
 import { DropdownOption, DropdownProps } from 'components/dropdown/dropdown.types'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import { mapDropdownOptions } from 'utils/helpers/dropdown/mapDropdownOptions'
 
 export const Dropdown: FC<DropdownProps> = ({ options, onSelectionChange }) => {
-  const mappedOptions: DropdownOption[] = options.map((str) => ({ value: str, label: str }))
-  const [selectedOptions, setSelectedOptions] = useState<DropdownOption[]>(mappedOptions)
+  const mappedDropdownOptions = useMemo(() => mapDropdownOptions(options), [options])
+  const [selectedOptions, setSelectedOptions] = useState(mappedDropdownOptions)
 
   const handleSelectChange = (updatedOptions: DropdownOption[]) => {
-    const selectionList = updatedOptions.map((updatedOption) => updatedOption.value)
+    const selectionList = updatedOptions.map(({ value }) => value)
     onSelectionChange(selectionList)
-    setSelectedOptions(updatedOptions)
   }
+
+  useEffect(() => {
+    setSelectedOptions(mappedDropdownOptions)
+  }, [mappedDropdownOptions])
 
   return (
     <Container>
       <StyledSelect
         classNamePrefix="react-select"
-        defaultValue={selectedOptions}
+        value={selectedOptions}
         placeholder="Filtrer par catégorie"
         onChange={handleSelectChange}
-        options={mappedOptions}
+        options={mappedDropdownOptions}
         isSearchable
         isMulti
       />

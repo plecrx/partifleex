@@ -5,3 +5,5 @@ export type Movie = {
   likes: number
   title: string
 }
+
+export type MovieMap = Record<string, Movie[]>
