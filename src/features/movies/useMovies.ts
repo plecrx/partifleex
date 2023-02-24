@@ -7,6 +7,7 @@ export const useMovies = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
   const [movies, setMovies] = useState<Movie[]>([])
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies)
   const moviesCount: number = useMemo(() => movies.length, [movies])
   const initialCategoriesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
   const categories: string[] = useMemo(() => Object.keys(initialCategoriesMap), [initialCategoriesMap])
@@ -63,6 +64,7 @@ export const useMovies = () => {
     setMovies((prevState) =>
       prevState.filter((movie) => !moviesToRemove.find((movieToRemove) => movieToRemove.id === movie.id))
     )
+    setSelectedMovies([])
   }
 
   const addLike = (movie: Movie) => {
@@ -120,7 +122,7 @@ export const useMovies = () => {
       setSelectedMovies([])
       return
     }
-    setSelectedMovies(movies)
+    setSelectedMovies(filteredMovies)
   }
 
   const handleCategorySelectionChange = (selection: string[]) => {
@@ -140,6 +142,7 @@ export const useMovies = () => {
       await movies$
         .then((data) => {
           setMovies(data as Movie[])
+          setFilteredMovies(data as Movie[])
           setIsLoading(false)
         })
         .catch(() => {
