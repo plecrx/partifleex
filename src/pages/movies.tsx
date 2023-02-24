@@ -4,13 +4,15 @@ import { Header } from 'components/header/header.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
-import React, { useEffect, useMemo, useState } from 'react'
-import { Movie, MovieMap } from 'types/movie'
-import { getCategoriesFromMoviesMap } from 'utils/helpers/movies/getCategoriesFromMoviesMap'
+import React, { useEffect, useState } from 'react'
+import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
+  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
   const {
     // addMovie,
     onDislikeMovie,
@@ -22,10 +24,6 @@ export const Movies = () => {
     movies,
     removeMovies,
   } = useMovies()
-  const initialMoviesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
-  const [filteredMoviesMap, setFilteredMoviesMap] = useState<MovieMap>({})
-  const [categoriesFilter, setCategoriesFilter] = useState<string[]>([])
-  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
 
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
@@ -38,23 +36,20 @@ export const Movies = () => {
     setSelectedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movieID))
   }
 
-  const mapCategoriesOnFilteredMoviesMap = (categoryFilters: string[], filteredMap: MovieMap, initialMap: MovieMap) => {
-    const newMoviesMap: MovieMap = {}
-    categoryFilters.forEach((categoryFilter) => {
-      newMoviesMap[categoryFilter] =
-        categoryFilter in filteredMap ? filteredMap[categoryFilter] : initialMap[categoryFilter]
-    })
-    return newMoviesMap
-  }
-
   const updateSelectedMovies = (updatedMovies: Movie[]) => {
     setSelectedMovies(updatedMovies)
   }
 
-  const updateCategoryFilters = (filters: string[]) => {
-    const newFilteredMoviesMap = mapCategoriesOnFilteredMoviesMap(filters, filteredMoviesMap, initialMoviesMap)
-    setFilteredMoviesMap(newFilteredMoviesMap)
-    setCategoriesFilter(filters)
+  const filterMovies = (filters: string[]) => {
+    const moviesList = []
+    filters.forEach((filter) => {
+      movies.forEach((movie) => {
+        if (movie.category === filter) {
+          moviesList.push(movie)
+        }
+      })
+    })
+    setFilteredMovies(moviesList)
   }
 
   const handleSelectMovie = (movie: Movie) => {
@@ -71,20 +66,20 @@ export const Movies = () => {
   }
 
   useEffect(() => {
-    const categories = getCategoriesFromMoviesMap(initialMoviesMap)
-    setCategoriesFilter(categories)
-    setFilteredMoviesMap(initialMoviesMap)
-  }, [initialMoviesMap])
+    const categories = Object.entries(mapMoviesOnCategory(movies)).map(([category]) => category)
+    setCategoriesOptions(categories)
+    setFilteredMovies(movies)
+    setSelectedMovies([])
+  }, [movies])
 
   const renderFilterBar = () => (
     <FilterBar
-      dropdownOptions={categoriesFilter}
-      items={movies}
+      items={filteredMovies}
+      dropdownOptions={categoriesOptions}
       selectedItems={selectedMovies}
-      removeAction={handleRemoveMovies}
-      showRemoveButton={!!selectedMovies.length}
       updateSelectedItems={updateSelectedMovies}
-      updateFilters={updateCategoryFilters}
+      updateFilters={filterMovies}
+      removeAction={handleRemoveMovies}
     />
   )
 
@@ -105,7 +100,7 @@ export const Movies = () => {
       )
     }
 
-    if (!Object.keys(filteredMoviesMap).length) {
+    if (!movies.length) {
       return (
         <CenterDiv>
           <span>No movies ! (refresh)</span>
@@ -115,7 +110,7 @@ export const Movies = () => {
 
     return (
       <CardList filterBar={renderFilterBar()}>
-        {Object.entries(filteredMoviesMap).map(([category, categoryMovies]) => (
+        {Object.entries(mapMoviesOnCategory(filteredMovies)).map(([category, categoryMovies]) => (
           <CategoryWrapper key={`category-${category}`}>
             <CategoryTitle>{category}</CategoryTitle>
             <MoviesWrapper>

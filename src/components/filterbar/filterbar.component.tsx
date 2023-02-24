@@ -10,7 +10,6 @@ import React, { FC, useEffect, useState } from 'react'
 export const FilterBar: FC<FilterbarProps> = ({
   dropdownOptions,
   removeAction,
-  showRemoveButton,
   selectedItems,
   updateSelectedItems,
   updateFilters,
@@ -18,16 +17,16 @@ export const FilterBar: FC<FilterbarProps> = ({
 }) => {
   const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
 
-  const handleSelectAllChange = () => {
-    updateSelectedItems(selectedItems.length === items.length ? [] : items)
-  }
-
   const handleFilterChange = (selection: string[]) => {
     updateFilters(selection)
   }
 
+  const handleSelectAllChange = () => {
+    updateSelectedItems(selectedItems.length === items.length ? [] : items)
+  }
+
   useEffect(() => {
-    setSelectAllChecked(selectedItems.length === items.length)
+    setSelectAllChecked(selectedItems.length === items.length && selectedItems.length !== 0)
   }, [updateSelectedItems, items.length, selectedItems])
 
   return (
@@ -40,7 +39,7 @@ export const FilterBar: FC<FilterbarProps> = ({
         <Dropdown options={dropdownOptions} onSelectionChange={handleFilterChange} />
       </RowWrapper>
       <RowWrapper>
-        {showRemoveButton && (
+        {!!selectedItems.length && (
           <Button variant={ButtonVariant.RED} onClick={removeAction}>
             <TrashIcon width={16} />
             Supprimer

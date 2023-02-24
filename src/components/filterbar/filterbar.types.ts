@@ -7,5 +7,4 @@ export type FilterbarProps = {
   selectedItems: Movie[]
   updateSelectedItems: (movies: Movie[]) => void
   updateFilters: (filters: string[]) => void
-  showRemoveButton: boolean
 }
