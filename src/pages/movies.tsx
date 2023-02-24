@@ -62,10 +62,10 @@ export const Movies = () => {
       )
     }
 
-    if (!filteredMoviesMap) {
+    if (!Object.keys(filteredMoviesMap).length) {
       return (
         <CenterDiv>
-          <span>No movies !</span>
+          <span>No movies ! (refresh)</span>
         </CenterDiv>
       )
     }
