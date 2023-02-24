@@ -38,20 +38,22 @@ export const Movies = () => {
     setSelectedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movieID))
   }
 
-  /*  const mapCategoriesOnFilteredMoviesMap = (categoryFilters: string[], filteredMap: MovieMap, initialMap: MovieMap) => {
+  const mapCategoriesOnFilteredMoviesMap = (categoryFilters: string[], filteredMap: MovieMap, initialMap: MovieMap) => {
     const newMoviesMap: MovieMap = {}
     categoryFilters.forEach((categoryFilter) => {
       newMoviesMap[categoryFilter] =
         categoryFilter in filteredMap ? filteredMap[categoryFilter] : initialMap[categoryFilter]
     })
     return newMoviesMap
-  } */
+  }
 
   const updateSelectedMovies = (updatedMovies: Movie[]) => {
     setSelectedMovies(updatedMovies)
   }
 
   const updateCategoryFilters = (filters: string[]) => {
+    const newFilteredMoviesMap = mapCategoriesOnFilteredMoviesMap(filters, filteredMoviesMap, initialMoviesMap)
+    setFilteredMoviesMap(newFilteredMoviesMap)
     setCategoriesFilter(filters)
   }
 
