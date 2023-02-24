@@ -12,8 +12,8 @@ import { useMovies } from '../features/movies/useMovies'
 export const Movies = () => {
   const {
     // addMovie,
-    handleDislikeMovieClick,
-    handleLikeMovieClick,
+    onDislikeMovie,
+    onLikeMovie,
     isDisliked,
     isError,
     isLiked,
@@ -118,8 +118,8 @@ export const Movies = () => {
                   isChecked={isSelected(movie)}
                   isLiked={isLiked(movie)}
                   isDisliked={isDisliked(movie)}
-                  onLikeMovieClick={() => handleLikeMovieClick(movie)}
-                  onDislikeMovieClick={() => handleDislikeMovieClick(movie)}
+                  onLikeMovieClick={() => onLikeMovie(movie)}
+                  onDislikeMovieClick={() => onDislikeMovie(movie)}
                   onMovieSelect={() => handleSelectMovie(movie)}
                 />
               ))}
