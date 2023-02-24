@@ -13,14 +13,6 @@ export const useMovies = () => {
   const isDisliked = (movie: Movie): boolean =>
     !!dislikedMovies.find((dislikedMovie: Movie) => dislikedMovie.id === movie.id)
 
-  const addItemToList = (fn: (prevState) => void, item: Movie) => {
-    fn((prevState: Movie[]) => [...prevState, item])
-  }
-
-  const removeItemFromList = (fn: (prevState) => void, itemID: string) => {
-    fn((prevState: Movie[]) => prevState.filter((mv) => mv.id !== itemID))
-  }
-
   const incrementValue = (movie: Movie, property: keyof Movie) => {
     setMovies((prevState) =>
       prevState.map((obj) => {
@@ -48,7 +40,7 @@ export const useMovies = () => {
   }
 
   const addMovie = (movie: Movie) => {
-    addItemToList(setMovies, movie)
+    setMovies((prevState: Movie[]) => [...prevState, movie])
   }
 
   const removeMovies = (moviesToRemove: Movie[]) => {
@@ -58,26 +50,26 @@ export const useMovies = () => {
   }
 
   const addLike = (movie: Movie) => {
-    addItemToList(setLikedMovies, movie)
+    setLikedMovies((prevState: Movie[]) => [...prevState, movie])
     incrementValue(movie, 'likes')
   }
 
   const addDislike = (movie: Movie) => {
-    addItemToList(setDislikedMovies, movie)
+    setDislikedMovies((prevState: Movie[]) => [...prevState, movie])
     incrementValue(movie, 'dislikes')
   }
 
   const removeLike = (movie: Movie) => {
-    removeItemFromList(setLikedMovies, movie.id)
+    setLikedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movie.id))
     decrementValue(movie, 'likes')
   }
 
   const removeDislike = (movie: Movie) => {
-    removeItemFromList(setDislikedMovies, movie.id)
+    setDislikedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movie.id))
     decrementValue(movie, 'dislikes')
   }
 
-  const handleLikeMovieClick = (movie: Movie) => {
+  const onLikeMovie = (movie: Movie) => {
     if (isDisliked(movie)) {
       removeDislike(movie)
     }
@@ -88,7 +80,7 @@ export const useMovies = () => {
     addLike(movie)
   }
 
-  const handleDislikeMovieClick = (movie: Movie) => {
+  const onDislikeMovie = (movie: Movie) => {
     if (isLiked(movie)) {
       removeLike(movie)
     }
@@ -116,8 +108,8 @@ export const useMovies = () => {
 
   return {
     addMovie,
-    handleDislikeMovieClick,
-    handleLikeMovieClick,
+    onDislikeMovie,
+    onLikeMovie,
     isDisliked,
     isError,
     isLiked,
