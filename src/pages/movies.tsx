@@ -21,7 +21,7 @@ export const Movies = () => {
     isLoading,
     movies,
     removeMovies,
-  } = useMovies(setFilteredMovies)
+  } = useMovies()
 
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
@@ -60,6 +60,9 @@ export const Movies = () => {
 
   const handleRemoveMovies = () => {
     removeMovies(selectedMovies)
+    /*    setFilteredMovies((prevState) =>
+      prevState.filter((movie) => selectedMovies.map((selectedMovie) => movie.id !== selectedMovie.id))
+    ) */
     setSelectedMovies([])
   }
 

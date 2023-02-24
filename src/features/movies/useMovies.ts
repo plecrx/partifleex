@@ -2,17 +2,17 @@ import { movies$ } from 'data/movies'
 import { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 
-export const useMovies = (setState: (prevState) => void) => {
+export const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
 
   const addMovie = (movie: Movie) => {
-    setState((prevState: Movie[]) => [...prevState, movie])
+    setMovies((prevState: Movie[]) => [...prevState, movie])
   }
 
   const removeMovies = (moviesToRemove: Movie[]) => {
-    setState((prevState) =>
+    setMovies((prevState) =>
       prevState.filter((movie) => !moviesToRemove.find((movieToRemove) => movieToRemove.id === movie.id))
     )
   }
