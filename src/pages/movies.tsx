@@ -78,7 +78,7 @@ export const Movies = () => {
             <MoviesWrapper>
               {categoryMovies.map((movie: Movie) => (
                 <MovieCard
-                  key={`movie-${movie.title}-${Math.random()}`}
+                  key={`movie-${movie.title}-${movie.id}`}
                   movie={movie}
                   isChecked={isSelected(movie)}
                   isLiked={isLiked(movie)}
