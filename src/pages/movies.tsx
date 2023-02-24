@@ -54,9 +54,6 @@ export const Movies = () => {
    *         categoryFilter in filteredMoviesMap ? filteredMoviesMap[categoryFilter] : initialMoviesMap[categoryFilter]
    *     })
    *     return categoriesMapSelection
-   *
-   *
-   *     Object.entries(filteredMoviesMap).map(([category, categoryMovies]) => (
    *     */
 
   const handleSelectMovie = (movie: Movie) => {
@@ -73,9 +70,19 @@ export const Movies = () => {
   }
 
   useEffect(() => {
+    const categories = getCategoriesFromMoviesMap(initialMoviesMap)
+    setCategoriesFilter(categories)
     setFilteredMoviesMap(initialMoviesMap)
-    setCategoriesFilter(getCategoriesFromMoviesMap(initialMoviesMap))
   }, [initialMoviesMap])
+
+  /*  useEffect(() => {
+    const categoriesMapSelection: MovieMap = {}
+    categoriesFilter.forEach((categoryFilter) => {
+      categoriesMapSelection[categoryFilter] =
+        categoryFilter in filteredMoviesMap ? filteredMoviesMap[categoryFilter] : initialMoviesMap[categoryFilter]
+    })
+    setFilteredMoviesMap(categoriesMapSelection)
+  }, [categoriesFilter, filteredMoviesMap, initialMoviesMap]) */
 
   const renderFilterBar = () => (
     <FilterBar
