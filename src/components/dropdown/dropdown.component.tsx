@@ -10,6 +10,7 @@ export const Dropdown: FC<DropdownProps> = ({ options, onSelectionChange }) => {
   const handleSelectChange = (updatedOptions: DropdownOption[]) => {
     const selectionList = updatedOptions.map(({ value }) => value)
     onSelectionChange(selectionList)
+    setSelectedOptions(updatedOptions)
   }
 
   useEffect(() => {
