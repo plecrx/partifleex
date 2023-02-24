@@ -4,44 +4,79 @@ import { Header } from 'components/header/header.component'
 import { MovieCard } from 'components/movie/movie.component'
 import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CenterDiv, Container } from 'pages/movies.styles'
-import React, { useEffect, useState } from 'react'
-import { Movie } from 'types/movie'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Movie, MovieMap } from 'types/movie'
+import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
-  const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false)
   const {
     // addMovie,
-    filteredCategories,
-    filteredMoviesMap,
+    movies,
     handleDislikeMovieClick,
     handleLikeMovieClick,
-    handleSelectAllChange,
-    handleSelectMovie,
     isDisliked,
     isError,
     isLiked,
     isLoading,
-    isSelected,
-    moviesCount,
     removeMovies,
-    selectedMovies,
-    handleCategorySelectionChange,
   } = useMovies()
+  const initialMoviesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])
+  const [filteredMoviesMap, setFilteredMoviesMap] = useState<MovieMap>({})
+  const [filteredCategories, setFilteredCategories] = useState<string[]>([])
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
+
+  const isSelected = (movie: Movie): boolean =>
+    !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
+
+  const selectMovie = (movie: Movie) => {
+    setSelectedMovies((prevState: Movie[]) => [...prevState, movie])
+  }
+
+  const unSelectMovie = (movieID: string) => {
+    setSelectedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movieID))
+  }
+
+  const updateSelectedMovies = (updatedMovies: Movie[]) => {
+    setSelectedMovies(updatedMovies)
+  }
+
+  const updateCategoryFilters = (categoryFilters: string[]) => {
+    const categoriesMapSelection: MovieMap = {}
+    categoryFilters.forEach((categoryFilter) => {
+      categoriesMapSelection[categoryFilter] =
+        categoryFilter in filteredMoviesMap ? filteredMoviesMap[categoryFilter] : initialMoviesMap[categoryFilter]
+    })
+    setFilteredCategories(categoryFilters)
+    return categoriesMapSelection
+  }
+
+  const handleSelectMovie = (movie: Movie) => {
+    if (isSelected(movie)) {
+      unSelectMovie(movie.id)
+      return
+    }
+    selectMovie(movie)
+  }
+
+  const handleRemoveMovies = () => {
+    removeMovies(selectedMovies)
+    setSelectedMovies([])
+  }
 
   useEffect(() => {
-    setSelectAllChecked(selectedMovies.length === moviesCount)
-  }, [handleSelectMovie, moviesCount, selectedMovies])
+    setFilteredMoviesMap(initialMoviesMap)
+  }, [initialMoviesMap])
 
   const renderFilterBar = () => (
     <FilterBar
-      selectAllChecked={selectAllChecked}
-      handleSelectAllChange={handleSelectAllChange}
-      categories={filteredCategories}
-      handleCategorySelectionChange={handleCategorySelectionChange}
-      selectedMovies={selectedMovies}
-      removeAction={() => removeMovies(selectedMovies)}
+      dropdownOptions={filteredCategories}
+      items={movies}
+      selectedItems={selectedMovies}
+      removeAction={handleRemoveMovies}
       showRemoveButton={!!selectedMovies.length}
+      updateSelectedItems={updateSelectedMovies}
+      updateFilters={updateCategoryFilters}
     />
   )
 

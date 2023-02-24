@@ -1,11 +1,11 @@
 import { Movie } from 'types/movie'
 
 export type FilterbarProps = {
-  categories: string[]
-  handleCategorySelectionChange: (selection: string[]) => void
-  handleSelectAllChange: () => void
+  dropdownOptions: string[]
   removeAction: () => void
-  selectAllChecked: boolean
-  selectedMovies: Movie[]
+  items: Movie[]
+  selectedItems: Movie[]
+  updateSelectedItems: (movies: Movie[]) => void
+  updateFilters: (filters: string[]) => void
   showRemoveButton: boolean
 }
