@@ -12,13 +12,13 @@ import { useMovies } from '../features/movies/useMovies'
 export const Movies = () => {
   const {
     // addMovie,
-    movies,
     handleDislikeMovieClick,
     handleLikeMovieClick,
     isDisliked,
     isError,
     isLiked,
     isLoading,
+    movies,
     removeMovies,
   } = useMovies()
   const initialMoviesMap: MovieMap = useMemo(() => mapMoviesOnCategory(movies), [movies])

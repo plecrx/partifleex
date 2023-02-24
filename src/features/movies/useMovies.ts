@@ -1,14 +1,13 @@
 import { movies$ } from 'data/movies'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 
 export const useMovies = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isError, setIsError] = useState<boolean>(false)
   const [movies, setMovies] = useState<Movie[]>([])
-  const moviesCount: number = useMemo(() => movies.length, [movies])
   const [likedMovies, setLikedMovies] = useState<Movie[]>([])
   const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isError, setIsError] = useState<boolean>(false)
 
   const isLiked = (movie: Movie): boolean => !!likedMovies.find((likedMovie: Movie) => likedMovie.id === movie.id)
   const isDisliked = (movie: Movie): boolean =>
@@ -117,14 +116,13 @@ export const useMovies = () => {
 
   return {
     addMovie,
-    movies,
     handleDislikeMovieClick,
     handleLikeMovieClick,
     isDisliked,
     isError,
     isLiked,
     isLoading,
-    moviesCount,
+    movies,
     removeMovies,
   }
 }
