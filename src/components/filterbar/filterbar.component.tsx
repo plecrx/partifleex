@@ -23,11 +23,6 @@ export const FilterBar: FC<FilterbarProps> = ({
   }
 
   const handleFilterChange = (selection: string[]) => {
-    /*    const categoriesMapSelection: MovieMap = {}
-    selection.forEach((category) => {
-      categoriesMapSelection[category] =
-        category in filteredMoviesMap ? filteredMoviesMap[category] : initialMoviesMap[category]
-    }) */
     updateFilters(selection)
   }
 
