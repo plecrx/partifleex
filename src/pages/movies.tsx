@@ -60,9 +60,9 @@ export const Movies = () => {
 
   const handleRemoveMovies = () => {
     removeMovies(selectedMovies)
-    /*    setFilteredMovies((prevState) =>
+    setFilteredMovies((prevState) =>
       prevState.filter((movie) => selectedMovies.map((selectedMovie) => movie.id !== selectedMovie.id))
-    ) */
+    )
     setSelectedMovies([])
   }
 
