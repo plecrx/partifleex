@@ -13,14 +13,22 @@ import { useFeedbacks, useMovies } from 'features/movies'
 import { Container, CenterDiv } from './movies.styles'
 
 export const Movies = () => {
-  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
+  const [displayedMovies, setDisplayedMovies] = useState<Movie[]>([])
+  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const { isError, isLoading, movies, removeMovies } = useMovies()
-  const { isLiked, isDisliked, onLikeMovie, onDislikeMovie } = useFeedbacks(setFilteredMovies)
+  const { isLiked, isDisliked, onLikeMovie, onDislikeMovie } = useFeedbacks(setDisplayedMovies)
 
-  const isSelected = (movie: Movie): boolean =>
+  const isAllMoviesSelected: boolean = selectedMovies.length === displayedMovies.length && selectedMovies.length !== 0
+
+  const isAllMoviesUnselected = !selectedMovies.length
+
+  const isMovieSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
+
+  const resetSelectedMovies = () => {
+    setSelectedMovies([])
+  }
 
   const selectMovie = (movie: Movie) => {
     setSelectedMovies((prevState: Movie[]) => [...prevState, movie])
@@ -31,42 +39,49 @@ export const Movies = () => {
   }
 
   const handleSelectMovie = (movie: Movie) => {
-    if (isSelected(movie)) {
+    if (isMovieSelected(movie)) {
       unSelectMovie(movie.id)
       return
     }
     selectMovie(movie)
   }
 
-  const updateSelectedMovies = (updatedMovies: Movie[]) => {
-    setSelectedMovies(updatedMovies)
+  const handleSelectAllToggle = () => {
+    if (isAllMoviesSelected) {
+      resetSelectedMovies()
+      return
+    }
+    setSelectedMovies(displayedMovies)
   }
 
-  const filterMovies = (filters: string[]) => {
+  const filterMoviesOnCategory = (categoryFilters: string[]) => {
     const moviesList = []
-    filters.forEach((filter) => {
+    categoryFilters.forEach((categoryFilter) => {
       movies.forEach((movie) => {
-        if (movie.category === filter) {
+        if (categoryFilter === movie.category) {
           moviesList.push(movie)
         }
       })
     })
-    setFilteredMovies(moviesList)
+    setDisplayedMovies(moviesList)
   }
 
-  const handleRemoveMovies = () => {
-    removeMovies(selectedMovies)
-    setFilteredMovies((prevState) =>
-      prevState.filter((movie) => selectedMovies.map((selectedMovie) => movie.id !== selectedMovie.id))
+  const onRemoveButtonClick = () => {
+    setDisplayedMovies((prevState) =>
+      prevState.filter((displayedMovie) =>
+        selectedMovies.map((selectedMovie) => displayedMovie.id !== selectedMovie.id)
+      )
     )
-    setSelectedMovies([])
+
+    removeMovies(selectedMovies)
+    resetSelectedMovies()
   }
 
   useEffect(() => {
     const categories = Object.entries(mapMoviesOnCategory(movies)).map(([category]) => category)
     setCategoriesOptions(categories)
-    setFilteredMovies(movies)
-    setSelectedMovies([])
+    setDisplayedMovies(movies)
+    resetSelectedMovies()
   }, [movies])
 
   const renderContent = () => {
@@ -89,7 +104,7 @@ export const Movies = () => {
     if (!movies.length) {
       return (
         <CenterDiv>
-          <span>No movies ! (refresh)</span>
+          <span>No movies !</span>
         </CenterDiv>
       )
     }
@@ -98,14 +113,12 @@ export const Movies = () => {
       <>
         <Filterbar
           dropdownOptions={categoriesOptions}
-          isSelectedAllChecked={selectedMovies.length === filteredMovies.length && selectedMovies.length !== 0}
-          onSelectedAllChange={() =>
-            updateSelectedMovies(selectedMovies.length === filteredMovies.length ? [] : filteredMovies)
-          }
-          onSelectionChange={filterMovies}
+          isSelectedAllChecked={isAllMoviesSelected}
+          onSelectedAllChange={handleSelectAllToggle}
+          onSelectionChange={filterMoviesOnCategory}
           actions={
-            !!selectedMovies.length && (
-              <Button variant={ButtonVariant.RED} onClick={handleRemoveMovies}>
+            !isAllMoviesUnselected && (
+              <Button variant={ButtonVariant.RED} onClick={onRemoveButtonClick}>
                 <TrashIcon width={16} />
                 Supprimer
               </Button>
@@ -113,11 +126,11 @@ export const Movies = () => {
           }
         />
         <Container>
-          {Object.entries(mapMoviesOnCategory(filteredMovies)).map(([category, categoryMovies]) => (
+          {Object.entries(mapMoviesOnCategory(displayedMovies)).map(([category, categoryMovies]) => (
             <MoviesCardList
               category={category}
               categoryMovies={categoryMovies}
-              isSelected={isSelected}
+              isSelected={isMovieSelected}
               isLiked={isLiked}
               isDisliked={isDisliked}
               onLikeMovie={onLikeMovie}

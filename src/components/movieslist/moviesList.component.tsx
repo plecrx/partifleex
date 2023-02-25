@@ -4,7 +4,7 @@ import { MovieCard } from 'components/movie'
 import React, { FC } from 'react'
 import { Movie } from 'types/movie'
 
-import { MoviesWrapper } from './moviesList.styles'
+import { MoviesCardWrapper } from './moviesList.styles'
 
 export const MoviesCardList: FC<MoviesCardListProps> = ({
   category,
@@ -17,7 +17,7 @@ export const MoviesCardList: FC<MoviesCardListProps> = ({
   onSelectMovie,
 }) => (
   <CardList title={category}>
-    <MoviesWrapper>
+    <MoviesCardWrapper>
       {categoryMovies.map((movie: Movie) => (
         <MovieCard
           key={`movie-${movie.title}-${movie.id}`}
@@ -30,6 +30,6 @@ export const MoviesCardList: FC<MoviesCardListProps> = ({
           onSelect={() => onSelectMovie(movie)}
         />
       ))}
-    </MoviesWrapper>
+    </MoviesCardWrapper>
   </CardList>
 )
