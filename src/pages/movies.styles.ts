@@ -7,7 +7,7 @@ export const CenterDiv = styled.div`
   height: 100%;
 `
 
-export const CardlistContainer = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;

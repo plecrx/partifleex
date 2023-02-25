@@ -1,24 +1,23 @@
+import { MoviesCardList } from 'components/movieslist/moviesList.component'
 import React, { useEffect, useState } from 'react'
 import { TrashIcon } from '@heroicons/react/20/solid'
 import { Button, ButtonVariant } from 'components/button'
-import { Filterbar } from 'components/filterbar/filterbar.component'
-import { Header } from 'components/header/header.component'
-import { PageLayout } from 'layouts/page.layout'
-import { MovieCard } from 'components/movie/movie.component'
-import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
-import { CardlistContainer, CenterDiv } from 'pages/movies.styles'
+import { Filterbar } from 'components/filterbar'
+import { Header } from 'components/header'
+import { PageLayout } from 'layouts'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 import { BodyLayout } from 'layouts/body.layout'
-import { useFeedbacks } from 'features/movies/useFeedbacks'
-import { useMovies } from 'features/movies/useMovies'
+import { useFeedbacks, useMovies } from 'features/movies'
+
+import { Container, CenterDiv } from './movies.styles'
 
 export const Movies = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
   const { isError, isLoading, movies, removeMovies } = useMovies()
-  const { onDislikeMovie, onLikeMovie, isLiked, isDisliked } = useFeedbacks(setFilteredMovies)
+  const { isLiked, isDisliked, onLikeMovie, onDislikeMovie } = useFeedbacks(setFilteredMovies)
 
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
@@ -29,6 +28,14 @@ export const Movies = () => {
 
   const unSelectMovie = (movieID: string) => {
     setSelectedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movieID))
+  }
+
+  const handleSelectMovie = (movie: Movie) => {
+    if (isSelected(movie)) {
+      unSelectMovie(movie.id)
+      return
+    }
+    selectMovie(movie)
   }
 
   const updateSelectedMovies = (updatedMovies: Movie[]) => {
@@ -45,14 +52,6 @@ export const Movies = () => {
       })
     })
     setFilteredMovies(moviesList)
-  }
-
-  const handleSelectMovie = (movie: Movie) => {
-    if (isSelected(movie)) {
-      unSelectMovie(movie.id)
-      return
-    }
-    selectMovie(movie)
   }
 
   const handleRemoveMovies = () => {
@@ -113,27 +112,20 @@ export const Movies = () => {
             )
           }
         />
-        <CardlistContainer>
+        <Container>
           {Object.entries(mapMoviesOnCategory(filteredMovies)).map(([category, categoryMovies]) => (
-            <CategoryWrapper key={`category-${category}`}>
-              <CategoryTitle>{category}</CategoryTitle>
-              <MoviesWrapper>
-                {categoryMovies.map((movie: Movie) => (
-                  <MovieCard
-                    key={`movie-${movie.title}-${movie.id}`}
-                    movie={movie}
-                    isChecked={isSelected(movie)}
-                    isLiked={isLiked(movie)}
-                    isDisliked={isDisliked(movie)}
-                    onLikeMovieClick={() => onLikeMovie(movie)}
-                    onDislikeMovieClick={() => onDislikeMovie(movie)}
-                    onMovieSelect={() => handleSelectMovie(movie)}
-                  />
-                ))}
-              </MoviesWrapper>
-            </CategoryWrapper>
+            <MoviesCardList
+              category={category}
+              categoryMovies={categoryMovies}
+              isSelected={isSelected}
+              isLiked={isLiked}
+              isDisliked={isDisliked}
+              onLikeMovie={onLikeMovie}
+              onDislikeMovie={onDislikeMovie}
+              onSelectMovie={handleSelectMovie}
+            />
           ))}
-        </CardlistContainer>
+        </Container>
       </>
     )
   }

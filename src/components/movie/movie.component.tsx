@@ -10,19 +10,14 @@ export const MovieCard = ({
   isChecked,
   isLiked,
   isDisliked,
-  onLikeMovieClick,
-  onDislikeMovieClick,
-  onMovieSelect,
+  onLikeClick,
+  onDislikeClick,
+  onSelect,
 }: MovieCardProps) => {
   const { title, likes, dislikes } = movie
   return (
-    <Card title={title} isChecked={isChecked} onCardSelect={onMovieSelect}>
-      <Feedback
-        onLikeClick={onLikeMovieClick}
-        onDislikeClick={onDislikeMovieClick}
-        isLiked={isLiked}
-        isDisliked={isDisliked}
-      />
+    <Card title={title} isChecked={isChecked} onCardSelect={onSelect}>
+      <Feedback onLikeClick={onLikeClick} onDislikeClick={onDislikeClick} isLiked={isLiked} isDisliked={isDisliked} />
       <Gauge likes={likes} dislikes={dislikes} />
     </Card>
   )

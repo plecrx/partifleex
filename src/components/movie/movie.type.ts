@@ -5,7 +5,7 @@ export type MovieCardProps = {
   isDisliked: boolean
   isLiked: boolean
   movie: Movie
-  onDislikeMovieClick: () => void
-  onLikeMovieClick: () => void
-  onMovieSelect?: () => void
+  onDislikeClick: () => void
+  onLikeClick: () => void
+  onSelect?: () => void
 }
