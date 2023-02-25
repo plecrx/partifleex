@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { GaugeItemProps } from './gauge.types'
 
 export const GaugeWrapper = styled.div`

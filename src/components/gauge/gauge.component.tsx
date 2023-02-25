@@ -1,5 +1,6 @@
 import React from 'react'
 import { getRatio } from 'utils/helpers/gauge/getRatio'
+
 import { GaugeItem, GaugeLabelWrapper, GaugeWrapper } from './gauge.styles'
 import { GaugeItemColor, GaugeProps } from './gauge.types'
 

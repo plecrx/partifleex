@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+
 import { Container, Title } from './header.styles'
 import { HeaderProps } from './header.types'
 

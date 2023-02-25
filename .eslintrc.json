@@ -47,7 +47,7 @@
           "object",
           "type"
         ],
-        "newlines-between": "never"
+        "newlines-between": "always"
       }
     ]
   }

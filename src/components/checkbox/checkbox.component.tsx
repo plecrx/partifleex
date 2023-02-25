@@ -1,6 +1,7 @@
-import { CheckboxContainer, CheckboxInput, CheckboxSymbol } from 'components/checkbox/checkbox.styled'
-import { CheckboxProps } from 'components/checkbox/checkbox.types'
 import React from 'react'
+
+import { CheckboxContainer, CheckboxInput, CheckboxSymbol } from './checkbox.styled'
+import { CheckboxProps } from './checkbox.types'
 
 export const Checkbox = ({ id, isChecked, onChange, ...props }: CheckboxProps) => (
   <CheckboxContainer {...props}>

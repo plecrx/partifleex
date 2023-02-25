@@ -1,5 +1,5 @@
-import { movies$ } from 'data/movies'
 import { useEffect, useState } from 'react'
+import { movies$ } from 'data/movies'
 import { Movie } from 'types/movie'
 
 export const useMovies = () => {

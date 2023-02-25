@@ -6,12 +6,6 @@ export const MoviesWrapper = styled.div`
   gap: 24px;
 `
 
-export const ActionWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-`
-
 export const CategoryTitle = styled.span`
   font-size: 24px;
   font-weight: bold;

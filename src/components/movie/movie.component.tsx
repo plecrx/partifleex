@@ -1,7 +1,8 @@
-import { Card } from 'components/card/card.component'
-import { Feedback } from 'components/feedback/feedback.component'
-import { Gauge } from 'components/gauge/gauge.component'
 import React from 'react'
+import { Card } from 'components/card'
+import { Feedback } from 'components/feedback'
+import { Gauge } from 'components/gauge'
+
 import { MovieCardProps } from './movie.type'
 
 export const MovieCard = ({

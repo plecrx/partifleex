@@ -1,7 +1,8 @@
-import { Container, StyledSelect } from 'components/dropdown/dropdown.styles'
-import { DropdownOption, DropdownProps } from 'components/dropdown/dropdown.types'
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { mapDropdownOptions } from 'utils/helpers/dropdown/mapDropdownOptions'
+
+import { Container, StyledSelect } from './dropdown.styles'
+import { DropdownOption, DropdownProps } from './dropdown.types'
 
 export const Dropdown: FC<DropdownProps> = ({ options, onSelectionChange }) => {
   const mappedDropdownOptions = useMemo(() => mapDropdownOptions(options), [options])

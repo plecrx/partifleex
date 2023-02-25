@@ -1,8 +1,9 @@
-import { Checkbox } from 'components/checkbox/checkbox.component'
-import { Dropdown } from 'components/dropdown/dropdown.component'
-import { Container, CheckboxPanel, RowWrapper } from 'components/filterbar/filterbar.styles'
-import { FilterbarProps } from 'components/filterbar/filterbar.types'
 import React, { FC } from 'react'
+import { Checkbox } from 'components/checkbox'
+import { Dropdown } from 'components/dropdown'
+
+import { FilterbarProps } from './filterbar.types'
+import { Container, CheckboxPanel, RowWrapper } from './filterbar.styles'
 
 export const Filterbar: FC<FilterbarProps> = ({
   dropdownOptions,

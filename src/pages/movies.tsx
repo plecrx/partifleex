@@ -1,18 +1,17 @@
+import React, { useEffect, useState } from 'react'
 import { TrashIcon } from '@heroicons/react/20/solid'
-import { Button } from 'components/button/button.component'
-import { ButtonVariant } from 'components/button/button.types'
+import { Button, ButtonVariant } from 'components/button'
 import { Filterbar } from 'components/filterbar/filterbar.component'
 import { Header } from 'components/header/header.component'
 import { PageLayout } from 'layouts/page.layout'
 import { MovieCard } from 'components/movie/movie.component'
 import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CardlistContainer, CenterDiv } from 'pages/movies.styles'
-import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
-import { BodyLayout } from '../layouts/body.layout'
-import { useFeedbacks } from '../features/movies/useFeedbacks'
-import { useMovies } from '../features/movies/useMovies'
+import { BodyLayout } from 'layouts/body.layout'
+import { useFeedbacks } from 'features/movies/useFeedbacks'
+import { useMovies } from 'features/movies/useMovies'
 
 export const Movies = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])

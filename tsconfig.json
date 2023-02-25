@@ -33,6 +33,12 @@
       "data/*": [
         "data/*"
       ],
+      "features/*": [
+        "features/*"
+      ],
+      "layouts/*": [
+        "layouts/*"
+      ],
       "pages/*": [
         "pages/*"
       ],

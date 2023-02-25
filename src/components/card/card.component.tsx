@@ -1,5 +1,6 @@
-import { Checkbox } from 'components/checkbox/checkbox.component'
 import React from 'react'
+import { Checkbox } from 'components/checkbox'
+
 import {
   CardContainer,
   CardBody,
