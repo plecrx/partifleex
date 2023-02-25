@@ -1,12 +1,16 @@
-import { CardList } from 'components/cardList/cardList.component'
-import { FilterBar } from 'components/filterbar/filterbar.component'
+import { TrashIcon } from '@heroicons/react/20/solid'
+import { Button } from 'components/button/button.component'
+import { ButtonVariant } from 'components/button/button.types'
+import { Filterbar } from 'components/filterbar/filterbar.component'
 import { Header } from 'components/header/header.component'
+import { PageLayout } from 'layouts/page.layout'
 import { MovieCard } from 'components/movie/movie.component'
 import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
-import { CenterDiv, Container } from 'pages/movies.styles'
+import { CardlistContainer, CenterDiv } from 'pages/movies.styles'
 import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
+import { BodyLayout } from '../layouts/body.layout'
 import { useFeedbacks } from '../features/movies/useFeedbacks'
 import { useMovies } from '../features/movies/useMovies'
 
@@ -14,14 +18,8 @@ export const Movies = () => {
   const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
+  const { isError, isLoading, movies, removeMovies } = useMovies()
   const { onDislikeMovie, onLikeMovie, isLiked, isDisliked } = useFeedbacks(setFilteredMovies)
-  const {
-    // addMovie,
-    isError,
-    isLoading,
-    movies,
-    removeMovies,
-  } = useMovies()
 
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
@@ -73,17 +71,6 @@ export const Movies = () => {
     setSelectedMovies([])
   }, [movies])
 
-  const renderFilterBar = () => (
-    <FilterBar
-      items={filteredMovies}
-      dropdownOptions={categoriesOptions}
-      selectedItems={selectedMovies}
-      updateSelectedItems={updateSelectedMovies}
-      updateFilters={filterMovies}
-      removeAction={handleRemoveMovies}
-    />
-  )
-
   const renderContent = () => {
     if (isLoading) {
       return (
@@ -110,34 +97,52 @@ export const Movies = () => {
     }
 
     return (
-      <CardList filterBar={renderFilterBar()}>
-        {Object.entries(mapMoviesOnCategory(filteredMovies)).map(([category, categoryMovies]) => (
-          <CategoryWrapper key={`category-${category}`}>
-            <CategoryTitle>{category}</CategoryTitle>
-            <MoviesWrapper>
-              {categoryMovies.map((movie: Movie) => (
-                <MovieCard
-                  key={`movie-${movie.title}-${movie.id}`}
-                  movie={movie}
-                  isChecked={isSelected(movie)}
-                  isLiked={isLiked(movie)}
-                  isDisliked={isDisliked(movie)}
-                  onLikeMovieClick={() => onLikeMovie(movie)}
-                  onDislikeMovieClick={() => onDislikeMovie(movie)}
-                  onMovieSelect={() => handleSelectMovie(movie)}
-                />
-              ))}
-            </MoviesWrapper>
-          </CategoryWrapper>
-        ))}
-      </CardList>
+      <>
+        <Filterbar
+          dropdownOptions={categoriesOptions}
+          isSelectedAllChecked={selectedMovies.length === filteredMovies.length && selectedMovies.length !== 0}
+          onSelectedAllChange={() =>
+            updateSelectedMovies(selectedMovies.length === filteredMovies.length ? [] : filteredMovies)
+          }
+          onSelectionChange={filterMovies}
+          actions={
+            !!selectedMovies.length && (
+              <Button variant={ButtonVariant.RED} onClick={handleRemoveMovies}>
+                <TrashIcon width={16} />
+                Supprimer
+              </Button>
+            )
+          }
+        />
+        <CardlistContainer>
+          {Object.entries(mapMoviesOnCategory(filteredMovies)).map(([category, categoryMovies]) => (
+            <CategoryWrapper key={`category-${category}`}>
+              <CategoryTitle>{category}</CategoryTitle>
+              <MoviesWrapper>
+                {categoryMovies.map((movie: Movie) => (
+                  <MovieCard
+                    key={`movie-${movie.title}-${movie.id}`}
+                    movie={movie}
+                    isChecked={isSelected(movie)}
+                    isLiked={isLiked(movie)}
+                    isDisliked={isDisliked(movie)}
+                    onLikeMovieClick={() => onLikeMovie(movie)}
+                    onDislikeMovieClick={() => onDislikeMovie(movie)}
+                    onMovieSelect={() => handleSelectMovie(movie)}
+                  />
+                ))}
+              </MoviesWrapper>
+            </CategoryWrapper>
+          ))}
+        </CardlistContainer>
+      </>
     )
   }
 
   return (
-    <Container>
+    <PageLayout>
       <Header title="Ma liste de films" />
-      {renderContent()}
-    </Container>
+      <BodyLayout>{renderContent()}</BodyLayout>
+    </PageLayout>
   )
 }

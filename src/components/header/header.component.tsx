@@ -1,6 +1,6 @@
-import { Container, Title } from 'components/header/header.styles'
-import { HeaderProps } from 'components/header/header.types'
 import React, { FC } from 'react'
+import { Container, Title } from './header.styles'
+import { HeaderProps } from './header.types'
 
 export const Header: FC<HeaderProps> = ({ title }) => (
   <Container>

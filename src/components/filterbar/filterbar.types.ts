@@ -1,10 +1,9 @@
-import { Movie } from 'types/movie'
+import { ReactElement } from 'react'
 
 export type FilterbarProps = {
   dropdownOptions: string[]
-  removeAction: () => void
-  items: Movie[]
-  selectedItems: Movie[]
-  updateSelectedItems: (movies: Movie[]) => void
-  updateFilters: (filters: string[]) => void
+  isSelectedAllChecked: boolean
+  onSelectedAllChange: () => void
+  onSelectionChange: (filters: string[]) => void
+  actions: ReactElement
 }
