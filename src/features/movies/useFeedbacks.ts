@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Movie } from 'types/movie'
 
+// Could have used a reducer instead...
 export const useFeedbacks = (setState: (prevState) => void) => {
   const [likedMovies, setLikedMovies] = useState<Movie[]>([])
   const [dislikedMovies, setDislikedMovies] = useState<Movie[]>([])
