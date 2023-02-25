@@ -1,6 +1,6 @@
 {
   "root": true,
-  "plugins": ["@typescript-eslint", "styled-components-a11y", "prettier"],
+  "plugins": ["@typescript-eslint", "styled-components-a11y", "prettier", "react-hooks"],
   "extends": [
     "airbnb",
     "airbnb/hooks",
@@ -34,6 +34,8 @@
     "import/no-named-as-default": "off",
     "import/no-extraneous-dependencies": "off",
     "no-new": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "import/order": [
       "error",
       {
