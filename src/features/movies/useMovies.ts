@@ -7,8 +7,19 @@ export const useMovies = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isError, setIsError] = useState<boolean>(false)
 
-  const addMovie = (movie: Movie) => {
-    setMovies((prevState: Movie[]) => [...prevState, movie])
+  const addMovie = (movieToCreate: Movie) => {
+    setMovies((prevState: Movie[]) => [...prevState, movieToCreate])
+  }
+
+  const updateMovie = (updatedMovie: Movie) => {
+    setMovies((prevState: Movie[]) =>
+      prevState.map((movie) => {
+        if (movie.id === updatedMovie.id) {
+          return updatedMovie
+        }
+        return movie
+      })
+    )
   }
 
   const removeMovies = (moviesToRemove: Movie[]) => {
@@ -38,5 +49,6 @@ export const useMovies = () => {
     isLoading,
     movies,
     removeMovies,
+    updateMovie,
   }
 }

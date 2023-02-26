@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import { TrashIcon } from '@heroicons/react/20/solid'
 import { Button } from 'components/button/button.component'
 import { ButtonVariant } from 'components/button/button.types'
@@ -7,19 +8,16 @@ import { PageLayout } from 'layouts/page.layout'
 import { MovieCard } from 'components/movie/movie.component'
 import { CategoryTitle, CategoryWrapper, MoviesWrapper } from 'components/movie/movie.styles'
 import { CardlistContainer, CenterDiv } from 'pages/movies.styles'
-import React, { useEffect, useState } from 'react'
 import { Movie } from 'types/movie'
 import { mapMoviesOnCategory } from 'utils/helpers/movies/mapMoviesOnCategory'
 import { BodyLayout } from '../layouts/body.layout'
-import { useFeedbacks } from '../features/movies/useFeedbacks'
 import { useMovies } from '../features/movies/useMovies'
 
 export const Movies = () => {
-  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([])
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([])
-  const { isError, isLoading, movies, removeMovies } = useMovies()
-  const { onDislikeMovie, onLikeMovie, isLiked, isDisliked } = useFeedbacks(setFilteredMovies)
+  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([])
+  const { isError, isLoading, movies, removeMovies, updateMovie } = useMovies()
 
   const isSelected = (movie: Movie): boolean =>
     !!selectedMovies.find((selectedMovie: Movie) => selectedMovie.id === movie.id)
@@ -30,10 +28,6 @@ export const Movies = () => {
 
   const unSelectMovie = (movieID: string) => {
     setSelectedMovies((prevState: Movie[]) => prevState.filter((mv) => mv.id !== movieID))
-  }
-
-  const updateSelectedMovies = (updatedMovies: Movie[]) => {
-    setSelectedMovies(updatedMovies)
   }
 
   const filterMovies = (filters: string[]) => {
@@ -62,6 +56,14 @@ export const Movies = () => {
       prevState.filter((movie) => selectedMovies.map((selectedMovie) => movie.id !== selectedMovie.id))
     )
     setSelectedMovies([])
+  }
+
+  const handleUpdateMovies = () => {
+    if (selectedMovies.length === filteredMovies.length) {
+      setSelectedMovies([])
+      return
+    }
+    setSelectedMovies(filteredMovies)
   }
 
   useEffect(() => {
@@ -101,9 +103,7 @@ export const Movies = () => {
         <Filterbar
           dropdownOptions={categoriesOptions}
           isSelectedAllChecked={selectedMovies.length === filteredMovies.length && selectedMovies.length !== 0}
-          onSelectedAllChange={() =>
-            updateSelectedMovies(selectedMovies.length === filteredMovies.length ? [] : filteredMovies)
-          }
+          onSelectedAllChange={handleUpdateMovies}
           onSelectionChange={filterMovies}
           actions={
             !!selectedMovies.length && (
@@ -124,11 +124,8 @@ export const Movies = () => {
                     key={`movie-${movie.title}-${movie.id}`}
                     movie={movie}
                     isChecked={isSelected(movie)}
-                    isLiked={isLiked(movie)}
-                    isDisliked={isDisliked(movie)}
-                    onLikeMovieClick={() => onLikeMovie(movie)}
-                    onDislikeMovieClick={() => onDislikeMovie(movie)}
-                    onMovieSelect={() => handleSelectMovie(movie)}
+                    onMovieSelect={handleSelectMovie}
+                    onMovieUpdate={updateMovie}
                   />
                 ))}
               </MoviesWrapper>
