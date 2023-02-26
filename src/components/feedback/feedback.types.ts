@@ -1,8 +1,8 @@
+import { Movie } from 'types/movie'
+
 export type FeedbackProps = {
-  isDisliked?: boolean
-  isLiked?: boolean
-  onDislikeClick: () => void
-  onLikeClick: () => void
+  movie: Movie
+  onUpdateFeedback: (feedback: Partial<Movie>) => void
 }
 
 export enum FeedbackColor {
